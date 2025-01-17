@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ensure the main content doesn't overflow */
+body {
+    overflow-x: hidden;
+}
+
+/* Add some padding to the main content */
+main {
+    padding-top: 2rem;
+}

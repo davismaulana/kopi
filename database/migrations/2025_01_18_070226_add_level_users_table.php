@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('food', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->decimal('price',8,2);
-            $table->integer('stock');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('level')->nullable()->after('email');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('food');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('level');
+        });
     }
 };

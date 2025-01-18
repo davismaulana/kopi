@@ -9,13 +9,7 @@
                 <a href="{{ route('dashboard') }}" class="block">Dashboard</a>
             </li>
             <li class="px-4 py-2 hover:bg-gray-700">
-                <a href="{{ route('food.index') }}" class="block">Foods</a>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700">
-                <a href="{{ route('drink.index') }}" class="block">Drinks</a>
-            </li>
-            <li class="px-4 py-2 hover:bg-gray-700">
-                <a href="{{ route('profile.edit') }}" class="block">Transaction</a>
+                <a href="{{ route('menu.index') }}" class="block">Menu</a>
             </li>
             <li class="px-4 py-2 hover:bg-gray-700">
                 <a href="#" class="block">Settings</a>

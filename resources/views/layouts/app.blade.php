@@ -14,6 +14,8 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    
 </head>
 
 <body class="font-sans antialiased">
@@ -41,34 +43,7 @@
         </div>
     </div>
 
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('editForm');
-            const submitButton = document.getElementById('saveButton');
-    
-            if (form && submitButton) {
-                submitButton.addEventListener('click', function(event) {
-                    event.preventDefault(); // Mencegah form untuk submit langsung
-    
-                    Swal.fire({
-                        title: 'Save Confirmation',
-                        text: 'Are you sure want to change this?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes!',
-                        cancelButtonText: 'Cancel',
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit(); // Submit form jika konfirmasi
-                        }
-                    });
-                });
-            }
-        });
-    </script>
-    
+
 </body>
+
 </html>

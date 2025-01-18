@@ -13,27 +13,27 @@ class TransactionService
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function getAllCategories()
+    public function getAllTransactions()
     {
         return $this->transactionRepository->all();
     }
 
-    public function getCategory($id)
+    public function getTransaction($id)
     {
         return $this->transactionRepository->find($id);
     }
 
-    public function createCategory(array $data)
+    public function createTransaction(array $data)
     {
         return $this->transactionRepository->create($data);
     }
 
-    public function updateCategory($id, array $data)
+    public function updateTransaction($id, array $data)
     {
         return $this->transactionRepository->update($id, $data);
     }
 
-    public function deleteCategory($id)
+    public function deleteTransaction($id)
     {
         return $this->transactionRepository->delete($id);
     }

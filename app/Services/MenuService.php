@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\CustomerRepository;
 use App\Repositories\MenuRepository;
-use App\Repositories\MenuRepositoryInterface;
 
 class MenuService
 {

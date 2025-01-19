@@ -36,9 +36,9 @@ class MenuRepository implements MenuRepositoryInterface
 
     public function update($id, array $data)
     {
-        $category = Menu::findOrFail($id);
-        $category->update($data);
-        return $category;
+        $menu = Menu::findOrFail($id);
+        $menu->update($data);
+        return $menu;
     }
 
     public function delete($id)

@@ -41,16 +41,27 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|unique:menu,name',
+        $hasMenus = $this->menuService->getAllMenus()->count() > 0;
+
+        $rules = [
             'price' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
             'category' => 'required|in:food,drink',
-        ]);
+        ];
+
+        if ($hasMenus) {
+            $rules['name'] = 'required|unique:menus,name';
+        } else {
+            $rules['name'] = 'required';
+        }
+
+        $data = $request->validate($rules);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('menu_images', 'public'); // Save image
+        }else{
+            $data['image'] = 'menu_images/coffee.png';
         }
 
         $data['name'] = ucwords(strtolower($data['name']));
@@ -68,7 +79,7 @@ class MenuController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|unique:menu,name,' . $id,
+            'name' => 'required|unique:menus,name,' . $id,
             'price' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
@@ -78,7 +89,7 @@ class MenuController extends Controller
         $data['name'] = ucwords(strtolower($data['name']));
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('menu_images', 'public'); // Save image
+            $data['image'] = $request->file('image')->store('menu_images', 'public'); 
         }
 
         $this->menuService->updateMenu($id, $data);

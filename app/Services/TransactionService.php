@@ -23,9 +23,9 @@ class TransactionService
         return $this->transactionRepository->find($id);
     }
 
-    public function createTransaction(array $data)
+    public function createTransaction(array $data, $cashierId)
     {
-        return $this->transactionRepository->create($data);
+        return $this->transactionRepository->create($data, $cashierId);
     }
 
     public function updateTransaction($id, array $data)

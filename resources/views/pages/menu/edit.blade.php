@@ -12,7 +12,7 @@
                     <div class="container mx-auto px-4 py-8">
                         <form action="{{ route('menu.update', $menu->id) }}" method="POST"
                             class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md"
-                            onsubmit="return confirm('Are you sure you want to edit this item?');">
+                            onsubmit="return confirm('Are you sure you want to edit this item?');" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="mb-4">
@@ -21,6 +21,9 @@
                                 <input type="text" name="name" id="name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
                                     required value="{{ $menu->name }}">
+                                @error('name')
+                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
@@ -49,6 +52,9 @@
                                 <input type="number" name="price" id="price" step="0.01"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
                                     required value="{{ $menu->price }}">
+                                @error('price')
+                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-4">
                                 <label for="stock"
@@ -56,15 +62,20 @@
                                 <input type="number" name="stock" id="stock"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
                                     required value="{{ $menu->stock }}">
+                                @error('stock')
+                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="image"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300">Image
                                     (optional)</label>
-                                <input type="file" name="image" id="image" accept="image/*"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                    >
+                                <input type="file" name="image" id="image"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400">
+                                @error('image')
+                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
 
 
@@ -77,9 +88,19 @@
                                 </a>
                                 <button type="submit"
                                     class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
-                                    Edit
+                                    Update
                                 </button>
                             </div>
+                            @if ($errors->any())
+                                <div class="text-red-500 text-sm mt-3">
+                                    <strong>Please correct the following errors:</strong>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                         </form>
                     </div>
                 </div>

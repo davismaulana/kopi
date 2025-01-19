@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
 
     Route::resource('transaction', TransactionController::class);
+    Route::resource('customer', CustomerController::class);
 });
 
 require __DIR__.'/auth.php';

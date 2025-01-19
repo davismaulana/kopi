@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
+use App\Models\Menu;
 use App\Models\Transaction;
 use App\Services\MenuService;
 
@@ -52,12 +53,28 @@ class TransactionRepository implements TransactionRepositoryInterface
         return $totalPrice;
     }
 
-    public function update($id, array $data)
+    public function getMenuById($menuId)
     {
-        $category = Transaction::findOrFail($id);
-        $category->update($data);
-        return $category;
+        return Menu::findOrFail($menuId);
     }
+
+    public function getCustomerIdByName($customerName)
+    {
+        $customer = Customer::where('name', $customerName)->first();
+        if (!$customer) {
+            // Optionally create a new customer if it doesn't exist
+            $customer = Customer::create(['name' => $customerName]);
+        }
+
+        return $customer->id;
+    }
+
+    public function updateTransaction($transactionId, array $data)
+    {
+        $transaction = Transaction::findOrFail($transactionId);
+        $transaction->update($data);
+    }
+
 
     public function delete($id)
     {

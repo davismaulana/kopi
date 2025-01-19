@@ -28,10 +28,27 @@ class TransactionService
         return $this->transactionRepository->create($data, $cashierId);
     }
 
-    public function updateTransaction($id, array $data)
+    public function updateTransaction($transactionId, array $data)
     {
-        return $this->transactionRepository->update($id, $data);
+        $menus = $data['menus'];
+        $totalPrice = 0;
+
+        // Calculate total price
+        foreach ($menus as $menu) {
+            $menuDetails = $this->transactionRepository->getMenuById($menu['id']);
+            $totalPrice += $menuDetails->price * $menu['quantity'];
+        }
+
+        $transactionData = [
+            'customer_id' => $this->transactionRepository->getCustomerIdByName($data['customer_name']),
+            'menu_id' => $menus[0]['id'], // If a single menu is tied to a transaction
+            'count' => $menus[0]['quantity'], // Quantity of the single menu
+            'total_price' => $totalPrice,
+        ];
+
+        $this->transactionRepository->updateTransaction($transactionId, $transactionData);
     }
+
 
     public function deleteTransaction($id)
     {

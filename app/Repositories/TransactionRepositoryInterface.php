@@ -7,7 +7,7 @@ interface TransactionRepositoryInterface
     public function all();
     public function find($id);
     public function create(array $data, $cashierId);
-    public function update($id, array $data);
+    // public function update();
     public function delete($id);
 
 }

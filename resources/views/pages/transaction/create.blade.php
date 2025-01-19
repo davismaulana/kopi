@@ -37,7 +37,7 @@
                                             <option value="">Select a menu</option>
                                             @foreach ($menus as $menu)
                                                 <option value="{{ $menu->id }}">{{ $menu->name }} -
-                                                    ${{ $menu->price }}</option>
+                                                    Rp.{{ $menu->price }}</option>
                                             @endforeach
                                         </select>
                                         @error('menus[0][id]')
@@ -65,13 +65,13 @@
                             </div>
 
                             <div class="flex justify-end">
-                                <a href="{{ route('menu.index') }}">
+                                <a href="{{ route('transaction.index') }}">
                                     <button type="button"
                                         class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 me-4">
                                         Cancel
                                     </button>
                                 </a>
-                                
+
                                 <button type="submit"
                                     class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
                                     Create Transaction
@@ -98,6 +98,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const addMenuButton = document.getElementById('add-menu');
             const menusContainer = document.getElementById('menus-container');
+            const totalPriceInput = document.getElementById('total_price');
             let menuCount = 1;
 
             // Add another menu item
@@ -108,7 +109,7 @@
             <select name="menus[${menuCount}][id]" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" required>
                 <option value="">Select a menu</option>
                 @foreach ($menus as $menu)
-                    <option value="{{ $menu->id }}">{{ $menu->name }} - ${{ $menu->price }}</option>
+                    <option value="{{ $menu->id }}">{{ $menu->name }} - Rp.{{ $menu->price }}</option>
                 @endforeach
             </select>
             <input type="number" name="menus[${menuCount}][quantity]" class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Quantity" required min="1">
@@ -121,6 +122,7 @@
             menusContainer.addEventListener('change', function() {
                 let totalPrice = 0;
                 const menuItems = document.querySelectorAll('.menu-item');
+
                 menuItems.forEach(function(menuItem) {
                     const menuSelect = menuItem.querySelector('select');
                     const quantityInput = menuItem.querySelector('input[type="number"]');
@@ -128,12 +130,15 @@
                     const quantity = parseInt(quantityInput.value);
 
                     if (menuId && quantity > 0) {
-                        const menuPrice = parseFloat(menuSelect.selectedOptions[0].text.split(
-                            '- $')[1]);
+                        // Extract price from the selected option text (handles `Rp.` format)
+                        const menuPriceText = menuSelect.selectedOptions[0].text.match(/Rp\.(\d+)/);
+                        const menuPrice = menuPriceText ? parseFloat(menuPriceText[1]) : 0;
                         totalPrice += menuPrice * quantity;
                     }
                 });
-                document.getElementById('total_price').value = totalPrice.toFixed(2);
+
+                // Update total price input
+                totalPriceInput.value = totalPrice.toFixed(2);
             });
         });
     </script>

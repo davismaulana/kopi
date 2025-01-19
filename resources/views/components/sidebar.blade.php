@@ -15,10 +15,10 @@
                 <a href="{{ route('menu.index') }}" class="block">Menu</a>
             </li>
             <li class="px-4 py-2 hover:bg-gray-700">
-                <a href="{{ route('transaction.create') }}" class="block">Transaction</a>
+                <a href="{{ route('transaction.index') }}" class="block">Transaction</a>
             </li>
             <li class="px-4 py-2 hover:bg-gray-700">
-                <a href="#" class="block">Settings</a>
+                <a href="{{ route('customer.index') }}" class="block">Customer</a>
             </li>
             <li class="px-4 py-2 hover:bg-gray-700">
                 <form method="POST" action="{{ route('logout') }}">

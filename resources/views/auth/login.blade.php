@@ -43,5 +43,9 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+
+        <h5 class="mt-5 text-transparent">-</h5>
+
+        <h5 class="mt-5 text-center text-gray-300">Don't have an account? <a class="text-white underline" href="{{ route('register') }}">Register</a></h5>
     </form>
 </x-guest-layout>

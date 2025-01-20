@@ -10,11 +10,11 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="container mx-auto px-4 py-8">
-
                         <form action="{{ route('transaction.store') }}" method="POST"
                             class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
                             @csrf
 
+                            <!-- Customer Name -->
                             <div class="mb-4">
                                 <label for="customer_name"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300">Customer
@@ -27,6 +27,7 @@
                                 <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
 
+                            <!-- Menus -->
                             <div class="mb-3">
                                 <label for="menus" class="form-label">Menus</label>
                                 <div id="menus-container">
@@ -55,6 +56,42 @@
                                     Menu</button>
                             </div>
 
+                            <!-- Payment Method -->
+                            <div class="mb-4">
+                                <label for="payment_method"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Payment
+                                    Method</label>
+                                <select name="payment_method" id="payment_method"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                                    required>
+                                    <option value="">Select a payment method</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="Online Payment">Online Payment</option>
+                                </select>
+                                @error('payment_method')
+                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Payment Status -->
+                            <div class="mb-4">
+                                <label for="payment_status"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Payment
+                                    Status</label>
+                                <select name="payment_status" id="payment_status"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                                    required>
+                                    <option value="">Select a payment status</option>
+                                    <option value="unpaid">Unpaid</option>
+                                    <option value="paid">Paid</option>
+                                </select>
+                                @error('payment_status')
+                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Total Price -->
                             <div class="mb-4">
                                 <label for="total_price"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300">Total
@@ -64,6 +101,7 @@
                                     disabled>
                             </div>
 
+                            <!-- Buttons -->
                             <div class="flex justify-end">
                                 <a href="{{ route('transaction.index') }}">
                                     <button type="button"
@@ -71,12 +109,13 @@
                                         Cancel
                                     </button>
                                 </a>
-
                                 <button type="submit"
                                     class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
                                     Create Transaction
                                 </button>
                             </div>
+
+                            <!-- Error Messages -->
                             @if ($errors->any())
                                 <div class="text-red-500 text-sm mt-3">
                                     <strong>Please correct the following errors:</strong>
@@ -106,14 +145,14 @@
                 const newMenuItem = document.createElement('div');
                 newMenuItem.classList.add('menu-item', 'mb-3');
                 newMenuItem.innerHTML = `
-            <select name="menus[${menuCount}][id]" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" required>
-                <option value="">Select a menu</option>
-                @foreach ($menus as $menu)
-                    <option value="{{ $menu->id }}">{{ $menu->name }} - Rp.{{ $menu->price }}</option>
-                @endforeach
-            </select>
-            <input type="number" name="menus[${menuCount}][quantity]" class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Quantity" required min="1">
-        `;
+                    <select name="menus[${menuCount}][id]" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" required>
+                        <option value="">Select a menu</option>
+                        @foreach ($menus as $menu)
+                            <option value="{{ $menu->id }}">{{ $menu->name }} - Rp.{{ $menu->price }}</option>
+                        @endforeach
+                    </select>
+                    <input type="number" name="menus[${menuCount}][quantity]" class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Quantity" required min="1">
+                `;
                 menusContainer.appendChild(newMenuItem);
                 menuCount++;
             });
@@ -130,7 +169,6 @@
                     const quantity = parseInt(quantityInput.value);
 
                     if (menuId && quantity > 0) {
-                        // Extract price from the selected option text (handles `Rp.` format)
                         const menuPriceText = menuSelect.selectedOptions[0].text.match(/Rp\.(\d+)/);
                         const menuPrice = menuPriceText ? parseFloat(menuPriceText[1]) : 0;
                         totalPrice += menuPrice * quantity;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Services\CustomerService;
 use App\Services\MenuService;
+use App\Services\PTService;
 use App\Services\TransactionService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -16,17 +17,20 @@ class TransactionController extends Controller
     protected $menuService;
     protected $userService;
     protected $customerService;
+    protected $PTService;
 
     public function __construct(
         TransactionService $transactionService,
         MenuService $menuService,
         CustomerService $customerService,
         UserService $userService,
+        PTService $PTService
     ) {
         $this->transactionService = $transactionService;
         $this->menuService = $menuService;
         $this->userService = $userService;
         $this->customerService = $customerService;
+        $this->PTService = $PTService;
     }
     public function index()
     {
@@ -47,6 +51,8 @@ class TransactionController extends Controller
             'menus' => 'required|array',
             'menus.*.id' => 'required|exists:menus,id',
             'menus.*.quantity' => 'required|integer|min:1',
+            'payment_method' => 'required|string|in:Cash,Credit Card,Online Payment',
+            'payment_status' => 'required|string|in:unpaid,paid',
         ]);
 
         $data['user_id'] = Auth::user()->id;
@@ -81,6 +87,7 @@ class TransactionController extends Controller
 
     public function destroy($id)
     {
+        $this->PTService->deletePaymentTransaction($id);
         $this->transactionService->deleteTransaction($id);
         return redirect()->route('transaction.index')->with('success', 'Transaction deleted successfully.');
     }

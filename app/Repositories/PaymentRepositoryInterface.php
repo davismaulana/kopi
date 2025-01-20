@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
-interface TransactionRepositoryInterface
+interface PaymentRepositoryInterface
 {
     public function all();
     public function find($id);
-    public function create(array $data, $cashierId);
-    // public function update();
+    public function create(array $data);
+    public function update($id, array $data);
     public function delete($id);
     public function count();
+
 }

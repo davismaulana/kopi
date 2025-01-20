@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Customer;
 use App\Models\Menu;
+use App\Models\Payment;
 use App\Models\Transaction;
 use App\Services\MenuService;
 
@@ -28,6 +29,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function create(array $data, $cashierId)
     {
+        $transactions = [];
         $totalPrice = 0;
 
         // Create or find customer
@@ -38,19 +40,34 @@ class TransactionRepository implements TransactionRepositoryInterface
 
         foreach ($data['menus'] as $menuData) {
             $menu = $this->menuService->getMenu($menuData['id']);
-            $totalPrice += $menu->price * $menuData['quantity'];
 
             // Create the transaction for each menu item
-            Transaction::create([
+            $transaction =  Transaction::create([
                 'user_id' => $cashierId,
                 'customer_id' => $customer->id,
                 'menu_id' => $menu->id,
                 'count' => $menuData['quantity'],
                 'total_price' => $menu->price * $menuData['quantity'],
             ]);
+
+            $transactions[] = $transaction;
+            $totalPrice += $menu->price * $menuData['quantity'];
         }
 
-        return $totalPrice;
+        // Create a single payment for all transactions
+        $payment = Payment::create([
+            'payment_method' => $data['payment_method'],
+            'amount' => $totalPrice,
+            'payment_date' => now(),
+            'status' => $data['payment_status'],
+        ]);
+
+        // Attach the payment to all transactions
+        foreach ($transactions as $transaction) {
+            $payment->transactions()->attach($transaction->id);
+        }
+
+        return $transactions;
     }
 
     public function getMenuById($menuId)

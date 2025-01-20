@@ -33,7 +33,7 @@
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">{{ $trans->customer->name }}</td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">{{ $trans->menu->name }}</td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">{{ $trans->count }}</td>
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500">Rp.{{ number_format($trans->total_price, 2) }}</td>
+                                            <td class="px-6 py-4 text-sm text-white bg-gray-500">Rp.{{ number_format($trans->total_price, 2, ',', '.') }}</td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">{{ $trans->created_at }}</td>
                                             <td class="px-6 py-4 text-sm bg-gray-500">
                                                 <div class="flex space-x-2">

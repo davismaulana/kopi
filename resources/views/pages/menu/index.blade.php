@@ -52,7 +52,7 @@
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500 ">{{ $menu->name }}
                                             </td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">
-                                                Rp.{{ number_format($menu->price, 2) }}</td>
+                                                Rp.{{ number_format($menu->price, 2, ',', '.') }}</td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">{{ $menu->stock }}
                                             </td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">{{ $menu->category }}

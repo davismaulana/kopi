@@ -23,4 +23,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Menu::class, 'menu_id', 'id');
     }
+
+    public function payments()
+    {
+        return $this->belongsToMany(Payment::class, 'payment_transaction');
+    }
 }

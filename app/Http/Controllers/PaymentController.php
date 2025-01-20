@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\PTRepository;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     protected $paymentService;
+    protected $PTService;
 
-    public function __construct(PaymentService $paymentService)
+    public function __construct(
+        PaymentService $paymentService,
+        PTRepository $PTRepository
+    )
     {
         $this->paymentService = $paymentService;
+        $this->PTService = $PTRepository;
     }
 
     public function index()
@@ -60,6 +66,7 @@ class PaymentController extends Controller
 
     public function destroy($id)
     {
+        $this->PTService->delete($id);
         $this->paymentService->deletePayment($id);
         return redirect()->route('payment.index')->with('success', 'Payment deleted successfully.');
     }

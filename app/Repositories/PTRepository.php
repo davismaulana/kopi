@@ -8,6 +8,6 @@ class PTRepository implements PTRepositoryInterface
 {
     public function delete($id)
     {
-        return PaymentTransaction::where('transaction_id', $id)->delete();
+        return PaymentTransaction::where('payment_id', $id)->delete();
     }
 }

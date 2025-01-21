@@ -26,24 +26,24 @@
                         <i class="fas fa-utensils mr-2"></i>Menu
                     </a>
                 </li>
-            @endcan
-            <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('transaction.index') ? 'bg-gray-700' : '' }}">
-                <a href="{{ route('transaction.index') }}" class="block">
-                    <i class="fas fa-receipt mr-2"></i>Transaction
-                </a>
-            </li>
-            @can('admin')
+                <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('transaction.index') ? 'bg-gray-700' : '' }}">
+                    <a href="{{ route('transaction.index') }}" class="block">
+                        <i class="fas fa-receipt mr-2"></i>Transaction
+                    </a>
+                </li>
+
                 <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('customer.index') ? 'bg-gray-700' : '' }}">
                     <a href="{{ route('customer.index') }}" class="block">
                         <i class="fas fa-user-friends mr-2"></i>Customer
                     </a>
                 </li>
+
+                <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('payment.index') ? 'bg-gray-700' : '' }}">
+                    <a href="{{ route('payment.index') }}" class="block">
+                        <i class="fas fa-user-friends mr-2"></i>Payment
+                    </a>
+                </li>
             @endcan
-            <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('payment.index') ? 'bg-gray-700' : '' }}">
-                <a href="{{ route('payment.index') }}" class="block">
-                    <i class="fas fa-user-friends mr-2"></i>Payment
-                </a>
-            </li>
         </ul>
     </nav>
 

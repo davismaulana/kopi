@@ -38,6 +38,11 @@ class MenuService
         return $this->menuRepository->update($id, $data);
     }
 
+    public function updateMenuStock($id, $quantity)
+    {
+        return $this->menuRepository->updateStock($id, $quantity);
+    }
+
     public function deleteMenu($id)
     {
         return $this->menuRepository->delete($id);

@@ -41,6 +41,21 @@ class MenuRepository implements MenuRepositoryInterface
         return $menu;
     }
 
+    public function updateStock($id, $quantity)
+    {
+        $menu = Menu::findOrFail($id);
+        $menu->stock -= $quantity;
+
+        if ($menu->stock < 0)
+        {
+            $menu->stock = 0;
+        }
+
+        $menu->save();
+        
+        return $menu;
+    }
+
     public function delete($id)
     {
         $category = Menu::findOrFail($id);

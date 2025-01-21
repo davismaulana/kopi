@@ -53,6 +53,8 @@ class TransactionRepository implements TransactionRepositoryInterface
                 'total_price' => $menu->price * $menuData['quantity'],
             ]);
 
+            $this->menuService->updateMenuStock($menu->id, $menuData['quantity']);
+
             $transactions[] = $transaction;
             $totalPrice += $menu->price * $menuData['quantity'];
         }

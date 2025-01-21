@@ -23,6 +23,11 @@ class PaymentService
         return $this->paymentRepository->find($id);
     }
 
+    public function getPaymentWithMenu($id)
+    {
+        return $this->paymentRepository->findMenu($id);
+    }
+
     public function createPayment(array $data)
     {
         return $this->paymentRepository->create($data);

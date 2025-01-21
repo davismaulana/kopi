@@ -25,6 +25,26 @@ class PaymentController extends Controller
 
     public function searchSort(Request $request) {}
 
+    public function view($id)
+    {
+        $payment = $this->paymentService->getPaymentWithMenu($id);
+
+        return response()->json([
+            'customer_name' => $payment->customer_name,
+            'payment_date' => $payment->payment_date,
+            'payment_method' => $payment->payment_method,
+            'amount' => $payment->amount,
+            'menus' => $payment->menus->map(function ($menu) {
+                return [
+                    'name' => $menu->name,
+                    'price' => $menu->price,
+                    'pivot' => [
+                        'count' => $menu->pivot->count,
+                    ],
+                ];
+            }),
+        ]);
+    }
 
     // public function create()
     // {

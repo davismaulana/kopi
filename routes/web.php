@@ -32,7 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('transaction', TransactionController::class);
     Route::resource('customer', CustomerController::class);
     Route::resource('payment', PaymentController::class);
-    // Route::resource('dashboard', DashboardController::class);
+    
+    Route::get('/payment/{id}/view', [PaymentController::class, 'view']);
 });
 
 require __DIR__.'/auth.php';

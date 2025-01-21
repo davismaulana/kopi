@@ -21,6 +21,11 @@ class PaymentRepository implements PaymentRepositoryInterface
         return Payment::findOrFail($id);
     }
 
+    public function findMenu($id)
+    {
+        return Payment::with('menus')->findOrFail($id);
+    }
+
     public function create(array $data)
     {
         return Payment::create($data);

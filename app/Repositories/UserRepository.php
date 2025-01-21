@@ -3,12 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements UserRepositoryInterface
 {
     public function all()
     {
-        return User::where('level', '!=', 'admin')->get();
+        $userId = Auth::user()->id;
+        return User::where('id', '!=', $userId)->get();
     }
 
     public function find($id)

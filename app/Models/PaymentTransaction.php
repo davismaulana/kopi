@@ -8,5 +8,5 @@ class PaymentTransaction extends Model
 {
     protected $table = 'payment_transaction';
 
-    protected $fillable = ['transaction_id'];
+    protected $fillable = ['payment_id','transaction_id'];
 }

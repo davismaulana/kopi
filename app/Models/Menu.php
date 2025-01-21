@@ -25,4 +25,16 @@ class Menu extends Model
     {
         return $query->where('category', 'drink');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'menu_id');
+    }
+
+    // Relationship to Payment (through Transaction)
+    public function payments()
+    {
+        return $this->belongsToMany(Payment::class, 'payment_transaction', 'menu_id', 'payment_id')
+                    ->withPivot('transaction_id', 'count'); // Include transaction_id in the pivot table
+    }
 }

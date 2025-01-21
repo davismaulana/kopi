@@ -6,15 +6,18 @@ use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Services\CustomerService;
 use App\Services\MenuService;
 
 class TransactionRepository implements TransactionRepositoryInterface
 {
     protected $menuService;
+    protected $customerService;
 
-    public function __construct(MenuService $menuService)
+    public function __construct(MenuService $menuService, CustomerService $customerService)
     {
         $this->menuService = $menuService;
+        $this->customerService = $customerService;
     }
 
     public function all()
@@ -56,6 +59,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
         // Create a single payment for all transactions
         $payment = Payment::create([
+            'customer_name' => $data['customer_name'],
             'payment_method' => $data['payment_method'],
             'amount' => $totalPrice,
             'payment_date' => now(),
@@ -64,7 +68,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
         // Attach the payment to all transactions
         foreach ($transactions as $transaction) {
-            $payment->transactions()->attach($transaction->id);
+            $payment->transactions()->attach($transaction->id, ['menu_id' => $transaction->menu_id, 'count' => $transaction->count]);
         }
 
         return $transactions;

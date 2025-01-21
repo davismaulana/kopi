@@ -10,32 +10,36 @@
     <!-- Navigation Links -->
     <nav class="mt-6 flex-1">
         <ul>
-            <li class="px-4 py-3 hover:bg-gray-700">
-                <a href="{{ route('dashboard') }}" class="block">
-                    <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
-                </a>
-            </li>
-            <li class="px-4 py-3 hover:bg-gray-700">
-                <a href="{{ route('user.index') }}" class="block">
-                    <i class="fas fa-users mr-2"></i>User
-                </a>
-            </li>
-            <li class="px-4 py-3 hover:bg-gray-700">
-                <a href="{{ route('menu.index') }}" class="block">
-                    <i class="fas fa-utensils mr-2"></i>Menu
-                </a>
-            </li>
-            <li class="px-4 py-3 hover:bg-gray-700">
+            @can('admin')
+                <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('dashboard') ? 'bg-gray-700' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="block">
+                        <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                    </a>
+                </li>
+                <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('user.index') ? 'bg-gray-700' : '' }}">
+                    <a href="{{ route('user.index') }}" class="block">
+                        <i class="fas fa-users mr-2"></i>User
+                    </a>
+                </li>
+                <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('menu.index') ? 'bg-gray-700' : '' }}">
+                    <a href="{{ route('menu.index') }}" class="block">
+                        <i class="fas fa-utensils mr-2"></i>Menu
+                    </a>
+                </li>
+            @endcan
+            <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('transaction.index') ? 'bg-gray-700' : '' }}">
                 <a href="{{ route('transaction.index') }}" class="block">
                     <i class="fas fa-receipt mr-2"></i>Transaction
                 </a>
             </li>
-            <li class="px-4 py-3 hover:bg-gray-700">
-                <a href="{{ route('customer.index') }}" class="block">
-                    <i class="fas fa-user-friends mr-2"></i>Customer
-                </a>
-            </li>
-            <li class="px-4 py-3 hover:bg-gray-700">
+            @can('admin')
+                <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('customer.index') ? 'bg-gray-700' : '' }}">
+                    <a href="{{ route('customer.index') }}" class="block">
+                        <i class="fas fa-user-friends mr-2"></i>Customer
+                    </a>
+                </li>
+            @endcan
+            <li class="px-4 py-3 hover:bg-gray-700 {{ request()->routeIs('payment.index') ? 'bg-gray-700' : '' }}">
                 <a href="{{ route('payment.index') }}" class="block">
                     <i class="fas fa-user-friends mr-2"></i>Payment
                 </a>

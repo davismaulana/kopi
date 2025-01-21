@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Cards Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Total Customers Card -->
                 <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
@@ -29,7 +29,8 @@
                 <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <svg class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -41,27 +42,12 @@
                     </div>
                 </div>
 
-                <!-- Total Transactions Card -->
-                <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <svg class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v1m0-1V7m0 1v1m6 6h-1m-3 0h-1m3 0v-1m0 1v-1m0 1v1m-6-6h-1m-3 0H6m3 0v-1m0 1v-1m0 1v1" />
-                            </svg>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Transactions</p>
-                            <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $totalTransactions }}</p>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Total Payments Card -->
                 <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <svg class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
@@ -89,6 +75,69 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Graphs Section -->
+            <!-- Line Chart: Sales Over Time -->
+            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Sales Over Time</h3>
+                <canvas id="salesChart"></canvas>
+            </div>
+
+            <!-- Bar Chart: Top Selling Menus -->
+            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Top Selling Menus</h3>
+                <canvas id="topMenusChart"></canvas>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Line Chart: Sales Over Time
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Total Sales',
+                    data: @json(array_values($salesData)), // Use real sales data
+                    borderColor: 'rgba(99, 102, 241, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Bar Chart: Top Selling Menus
+        const topMenusCtx = document.getElementById('topMenusChart').getContext('2d');
+        const topMenusChart = new Chart(topMenusCtx, {
+            type: 'bar',
+            data: {
+                labels: @json(array_keys($topMenusData)), // Menu names
+                datasets: [{
+                    label: 'Quantity Sold',
+                    data: @json(array_values($topMenusData)), // Quantities sold
+                    backgroundColor: 'rgba(0, 245, 71, 0.6)',
+                    borderColor: 'rgba(0, 245, 71, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </x-app-layout>

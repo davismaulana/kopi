@@ -17,6 +17,9 @@
                                     <tr>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            Customer Name</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
                                             Menu(s) Ordered
                                         </th>
                                         <th
@@ -39,10 +42,11 @@
                                 <tbody class="divide-y divide-gray-200">
                                     @foreach ($payments as $payment)
                                         <tr class="">
+                                            <td class="px-6 py-4 text-sm text-white bg-gray-500 ">{{$payment->customer_name}}</td>
                                             <td class="px-6 py-4 text-sm text-white bg-gray-500">
-                                                @foreach ($payment->transactions as $transaction)
+                                                @foreach ($payment->menus as $menus)
                                                     <div>
-                                                        {{ $transaction->menu->name }} (x{{ $transaction->count }})
+                                                        {{ $menus->name }} (x{{ $menus->pivot->count }})
                                                     </div>
                                                 @endforeach
                                             </td>

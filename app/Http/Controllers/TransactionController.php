@@ -87,7 +87,6 @@ class TransactionController extends Controller
 
     public function destroy($id)
     {
-        $this->PTService->deletePaymentTransaction($id);
         $this->transactionService->deleteTransaction($id);
         return redirect()->route('transaction.index')->with('success', 'Transaction deleted successfully.');
     }

@@ -19,13 +19,15 @@ class Transaction extends Model
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
-    public function menu()
-    {
-        return $this->belongsTo(Menu::class, 'menu_id', 'id');
-    }
-
     public function payments()
     {
-        return $this->belongsToMany(Payment::class, 'payment_transaction');
+        return $this->belongsToMany(Payment::class, 'payment_transaction')
+                    ->withPivot('menu_id', 'count'); // Include menu_id in the pivot table
+    }
+
+    // Relationship to Menu (many-to-one)
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'menu_id');
     }
 }

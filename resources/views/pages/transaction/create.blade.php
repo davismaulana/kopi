@@ -176,7 +176,7 @@
                 });
 
                 // Update total price input
-                totalPriceInput.value = totalPrice.toFixed(2);
+                totalPriceInput.value = `Rp. ${totalPrice.toFixed(2)}`;
             });
         });
     </script>

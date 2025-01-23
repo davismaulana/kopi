@@ -31,13 +31,13 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-latte">
         <!-- Include the sidebar -->
         @include('components.sidebar')
 
         <div class="ml-64">
             <!-- Include the navigation -->
-            @include('layouts.navigation', ['header' => $header ?? null])
+            {{-- @include('layouts.navigation', ['header' => $header ?? null]) --}}
 
             <!-- Page Heading -->
             {{-- @isset($header)
@@ -54,8 +54,6 @@
             </main>
         </div>
     </div>
-
-
 </body>
 
 </html>

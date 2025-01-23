@@ -30,4 +30,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Menu::class, 'menu_id');
     }
+
+    public function stockData()
+    {
+        return $this->belongsTo(StockData::class, 'transaction_id');
+    }
 }

@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $totalMenus = $this->menuService->countData();
         $totalTransactions = $this->transactionService->countData();
         $totalPayments = $this->paymentService->countData();
-        $totalUsers = $this->userService->countData();
+        $totalUsers = $this->userService->countUser();
 
         $salesData = Payment::selectRaw('SUM(amount) as total, MONTH(payment_date) as month')
             ->groupBy('month')

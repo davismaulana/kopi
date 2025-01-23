@@ -38,8 +38,23 @@ class UserService
         return $this->userRepository->delete($id);
     }
 
-    public function countData()
+    public function countUser()
     {
-        return $this->userRepository->count();
+        return $this->userRepository->countUser();
+    }
+
+    public function countAdmin()
+    {
+        return $this->userRepository->countAdmin();
+    }
+
+    public function countCashier()
+    {
+        return $this->userRepository->countCashier();
+    }
+
+    public function countCustomer()
+    {
+        return $this->userRepository->countCustomer();
     }
 }

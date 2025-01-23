@@ -29,16 +29,28 @@
 
                             <!-- Menus -->
                             <div class="mb-3">
-                                <label for="menus" class="form-label">Menus</label>
+                                <label for="menus"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Menus</label>
                                 <div id="menus-container">
+                                    <!-- Initial Menu Item -->
                                     <div class="menu-item mb-3">
                                         <select name="menus[0][id]"
-                                            class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                                            class="menu-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
                                             required>
                                             <option value="">Select a menu</option>
                                             @foreach ($menus as $menu)
-                                                <option value="{{ $menu->id }}">{{ $menu->name }} -
-                                                    Rp.{{ $menu->price }}</option>
+                                                @if ($menu->stock == 0)
+                                                <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}" disabled>
+                                                    {{ $menu->name }} - Rp.{{ $menu->price }} - Stock:
+                                                    {{ $menu->stock }}
+                                                </option>
+                                                @else
+                                                <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}">
+                                                    {{ $menu->name }} - Rp.{{ $menu->price }} - Stock:
+                                                    {{ $menu->stock }}
+                                                </option>
+                                                @endif
+                                                
                                             @endforeach
                                         </select>
                                         @error('menus[0][id]')
@@ -52,8 +64,10 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <button type="button" id="add-menu" class="btn btn-secondary mt-2">Add Another
-                                    Menu</button>
+                                <button type="button" id="add-menu"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                    Add Another Menu
+                                </button>
                             </div>
 
                             <!-- Payment Method -->
@@ -145,38 +159,66 @@
                 const newMenuItem = document.createElement('div');
                 newMenuItem.classList.add('menu-item', 'mb-3');
                 newMenuItem.innerHTML = `
-                    <select name="menus[${menuCount}][id]" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" required>
+                    <select name="menus[${menuCount}][id]"
+                        class="menu-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                        required>
                         <option value="">Select a menu</option>
                         @foreach ($menus as $menu)
-                            <option value="{{ $menu->id }}">{{ $menu->name }} - Rp.{{ $menu->price }}</option>
+                            <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}">
+                                {{ $menu->name }} - Rp.{{ $menu->price }} - Stock: {{ $menu->stock }}
+                            </option>
                         @endforeach
                     </select>
-                    <input type="number" name="menus[${menuCount}][quantity]" class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Quantity" required min="1">
+                    <input type="number" name="menus[${menuCount}][quantity]"
+                        class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                        placeholder="Quantity" required min="1">
                 `;
                 menusContainer.appendChild(newMenuItem);
                 menuCount++;
             });
 
-            // Calculate total price when quantity or menu is changed
-            menusContainer.addEventListener('change', function() {
-                let totalPrice = 0;
-                const menuItems = document.querySelectorAll('.menu-item');
+            // Validate quantity input
+            menusContainer.addEventListener('input', function(event) {
+                if (event.target.matches('input[type="number"]')) {
+                    const quantityInput = event.target;
+                    const menuSelect = quantityInput.closest('.menu-item').querySelector('select');
+                    const selectedMenu = menuSelect.selectedOptions[0];
 
-                menuItems.forEach(function(menuItem) {
-                    const menuSelect = menuItem.querySelector('select');
-                    const quantityInput = menuItem.querySelector('input[type="number"]');
-                    const menuId = menuSelect.value;
-                    const quantity = parseInt(quantityInput.value);
+                    if (selectedMenu && selectedMenu.dataset.stock) {
+                        const stock = parseInt(selectedMenu.dataset.stock);
+                        const quantity = parseInt(quantityInput.value);
 
-                    if (menuId && quantity > 0) {
-                        const menuPriceText = menuSelect.selectedOptions[0].text.match(/Rp\.(\d+)/);
-                        const menuPrice = menuPriceText ? parseFloat(menuPriceText[1]) : 0;
-                        totalPrice += menuPrice * quantity;
+                        if (quantity > stock) {
+                            alert('Quantity exceeds available stock!');
+                            quantityInput.value = stock; // Reset to max stock
+                        }
                     }
-                });
+                }
+            });
 
-                // Update total price input
-                totalPriceInput.value = `Rp. ${totalPrice.toFixed(2)}`;
+            // Calculate total price when quantity or menu is changed
+            menusContainer.addEventListener('change', function(event) {
+                if (event.target.matches('select, input[type="number"]')) {
+                    let totalPrice = 0;
+                    const menuItems = document.querySelectorAll('.menu-item');
+
+                    menuItems.forEach(function(menuItem) {
+                        const menuSelect = menuItem.querySelector('select');
+                        const quantityInput = menuItem.querySelector('input[type="number"]');
+                        const menuId = menuSelect.value;
+                        const quantity = parseInt(quantityInput.value);
+
+                        if (menuId && quantity > 0) {
+                            const menuPriceText = menuSelect.selectedOptions[0].text.match(
+                                /Rp\.(\d+)/);
+                            const menuPrice = menuPriceText ? parseFloat(menuPriceText[1]) : 0;
+                            totalPrice += menuPrice * quantity;
+                        }
+                    });
+
+                    // Update total price input
+                    totalPriceInput.value = `Rp. ${totalPrice.toFixed(2)}`;
+                }
             });
         });
     </script>

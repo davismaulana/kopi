@@ -14,6 +14,13 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'light-beige': '#F5F0E6', // Light Beige for text
+                'espresso': '#4A2C2A', // Espresso Brown
+                'latte': '#F5F0E6',    // Light Beige (Latte)
+                'caramel': '#D4A574',  // Caramel Accent
+                'transparent-white': 'rgba(255, 255, 255, 0.8)',
+            }
         },
     },
 

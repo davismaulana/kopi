@@ -38,7 +38,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         // Create or find customer
         $customer = Customer::firstOrCreate(
             ['name' => $data['customer_name']],
-            ['address' => 'Cafe Place Address']
+            ['address' => 'Jl. Example Street No. 123']
         );
 
         foreach ($data['menus'] as $menuData) {

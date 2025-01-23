@@ -36,9 +36,24 @@ class UserRepository implements UserRepositoryInterface
         $category->delete();
     }
 
-    public function count()
+    public function countUser()
     {
         $count = User::count();
         return $count;
+    }
+    public function countAdmin()
+    {
+        $admin = User::where('level','admin')->count();
+        return $admin;
+    }
+    public function countCashier()
+    {
+        $cashier = User::where('level','cashier')->count();
+        return $cashier;
+    }
+    public function countCustomer()
+    {
+        $customer = User::where('level','customer')->count();
+        return $customer;
     }
 }

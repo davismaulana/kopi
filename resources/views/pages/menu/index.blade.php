@@ -3,7 +3,50 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Total Food -->
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-burger mr-2 fa-2x"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-xl font-medium">Food Total</p>
+                            <p class="text-3xl font-semibold">{{ $countFood }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Drink -->
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-wine-glass mr-2 fa-2x"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-xl font-medium">Beverage Total</p>
+                            <p class="text-3xl font-semibold">{{ $countFood }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Menu -->
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-users mr-2 fa-2x"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-xl font-medium">Menu Total</p>
+                            <p class="text-3xl font-semibold">{{ $countDrink }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="container mx-auto px-4 py-4">

@@ -4,8 +4,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <!-- Total Admin -->
                 <div
                     class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
@@ -30,20 +29,6 @@
                         <div class="ml-4">
                             <p class="text-xl font-medium">Cashier Total</p>
                             <p class="text-3xl font-semibold">{{ $countCashier }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Total Customer -->
-                <div
-                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-receipt mr-2 text-yellow-500 fa-2x"></i>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-xl font-medium">Customer Total</p>
-                            <p class="text-3xl font-semibold">{{ $countCustomer }}</p>
                         </div>
                     </div>
                 </div>

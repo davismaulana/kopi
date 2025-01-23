@@ -1,5 +1,5 @@
 <!-- resources/views/components/sidebar.blade.php -->
-<aside class="w-64 bg-espresso text-white h-screen fixed flex flex-col">
+<aside class="w-64 bg-latte text-espresso h-screen fixed flex flex-col">
     <!-- Header -->
     <div class="p-4">
         <h1 class="text-2xl font-bold text-center">
@@ -11,7 +11,7 @@
     <nav class="mt-6 flex-1">
         <ul>
             <li
-                class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('dashboard') ? 'bg-caramel text-espresso' : '' }}">
+                class="px-4 py-4 hover:bg-espresso hover:text-latte {{ request()->routeIs('dashboard') ? 'bg-espresso text-latte' : '' }}">
                 <a href="{{ route('dashboard') }}" class="block">
                     <div class="grid grid-cols-5">
                         <h1 class="text-lg">
@@ -25,7 +25,7 @@
             </li>
             @can('admin')
                 <li
-                    class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('user.index') ? 'bg-latte text-espresso' : '' }}">
+                    class="px-4 py-4 hover:bg-espresso hover:text-latte {{ request()->routeIs('user.index') ? 'bg-espresso text-latte' : '' }}">
                     <a href="{{ route('user.index') }}" class="block">
                         <div class="grid grid-cols-5">
                             <h1 class="text-lg">
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li
-                    class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('menu.index') ? 'bg-latte text-espresso' : '' }}">
+                    class="px-4 py-4 hover:bg-espresso hover:text-latte {{ request()->routeIs('menu.index') ? 'bg-espresso text-latte' : '' }}">
                     <a href="{{ route('menu.index') }}" class="block">
                         <div class="grid grid-cols-5">
                             <h1 class="text-lg">
@@ -52,7 +52,7 @@
                 </li>
             @endcan
             <li
-                class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('transaction.index') ? 'bg-latte text-espresso' : '' }}">
+                class="px-4 py-4 hover:bg-espresso hover:text-latte {{ request()->routeIs('transaction.index') ? 'bg-espresso text-latte' : '' }}">
                 <a href="{{ route('transaction.index') }}" class="block">
                     <div class="grid grid-cols-5">
                         <h1 class="text-lg">
@@ -66,7 +66,7 @@
             </li>
             @can('admin')
                 <li
-                    class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('customer.index') ? 'bg-latte text-espresso' : '' }}">
+                    class="px-4 py-4 hover:bg-composer hover:text-latte {{ request()->routeIs('customer.index') ? 'bg-espresso text-latte' : '' }}">
                     <a href="{{ route('customer.index') }}" class="block">
                         <div class="grid grid-cols-5">
                             <h1 class="text-lg">
@@ -82,7 +82,7 @@
             @endcan
 
             <li
-                class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('payment.index') ? 'bg-latte text-espresso' : '' }}">
+                class="px-4 py-4 hover:bg-composer hover:text-latte {{ request()->routeIs('payment.index') ? 'bg-espresso text-latte' : '' }}">
                 <a href="{{ route('payment.index') }}" class="block">
                     <div class="grid grid-cols-5">
                         <h1 class="text-lg">
@@ -96,7 +96,7 @@
             </li>
 
             <li
-                class="px-4 py-4 hover:bg-latte hover:text-espresso {{ request()->routeIs('setting.index') ? 'bg-latte text-espresso' : '' }}">
+                class="px-4 py-4 hover:bg-espresso hover:text-latte {{ request()->routeIs('setting.index') ? 'bg-espresso text-latte' : '' }}">
                 <a href="{{ route('profile.edit') }}" class="block">
                     <div class="grid grid-cols-5">
                         <h1 class="text-lg">

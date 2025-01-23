@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Menu;
+use App\Models\StockData;
 
 class MenuRepository implements MenuRepositoryInterface
 {
@@ -64,7 +65,16 @@ class MenuRepository implements MenuRepositoryInterface
 
     public function count()
     {
-        $count = Menu::count();
-        return $count;
+        return Menu::count();
+    }
+
+    public function countFood()
+    {
+        return Menu::where('category', 'food')->count();
+    }
+
+    public function countDrink()
+    {
+        return Menu::where('category', 'drink')->count();
     }
 }

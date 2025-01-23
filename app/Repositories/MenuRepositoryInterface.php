@@ -12,4 +12,6 @@ interface MenuRepositoryInterface
     public function updateStock($id, $quantity);
     public function delete($id);
     public function count();
+    public function countFood();
+    public function countDrink();
 }

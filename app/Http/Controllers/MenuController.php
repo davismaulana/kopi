@@ -17,7 +17,10 @@ class MenuController extends Controller
     public function index()
     {
         $menus = $this->menuService->getAllMenus()->sortBy('name');
-        return view('pages.menu.index', compact('menus'));
+        $countMenu = $this->menuService->countData();
+        $countFood = $this->menuService->countFood();
+        $countDrink = $this->menuService->countDrink();
+        return view('pages.menu.index', compact('menus','countMenu','countFood','countDrink'));
     }
 
     public function searchSort(Request $request) {}
@@ -67,6 +70,7 @@ class MenuController extends Controller
         $data['name'] = ucwords(strtolower($data['name']));
 
         $this->menuService->createMenu($data);
+
         return redirect()->route('menu.index')->with('success', 'Menu created successfully.');
     }
 

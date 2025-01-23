@@ -52,4 +52,14 @@ class MenuService
     {
         return $this->menuRepository->count();
     }
+
+    public function countFood()
+    {
+        return $this->menuRepository->countFood();
+    }
+
+    public function countDrink()
+    {
+        return $this->menuRepository->countDrink();
+    }
 }

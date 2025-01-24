@@ -10,7 +10,7 @@
                     class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fa-solid fa-user-tie mr-2 text-blue-500 fa-2x"></i>
+                            <i class="fa-solid fa-user-tie mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Admin Total</p>
@@ -24,7 +24,7 @@
                     class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fa-solid fa-cash-register mr-2 text-green-500 fa-2x"></i>
+                            <i class="fa-solid fa-cash-register mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Cashier Total</p>
@@ -38,7 +38,7 @@
                     class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-users mr-2 text-red-500 fa-2x"></i>
+                            <i class="fas fa-users mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">User Total</p>

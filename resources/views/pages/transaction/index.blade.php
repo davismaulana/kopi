@@ -42,17 +42,17 @@
                                 <tbody class="divide-y divide-latte bg-latte">
                                     @foreach ($transactions as $trans)
                                         <tr class="">
-                                            <td class="px-6 py-4 text-sm text-white">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $trans->cashier->name }}</td>
-                                            <td class="px-6 py-4 text-sm text-white">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $trans->customer->name }}</td>
-                                            <td class="px-6 py-4 text-sm text-white">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $trans->menu->name }}</td>
-                                            <td class="px-6 py-4 text-sm text-white">{{ $trans->count }}
+                                            <td class="px-6 py-4 text-sm text-espresso">{{ $trans->count }}
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-white">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 Rp.{{ number_format($trans->total_price, 2, ',', '.') }}</td>
-                                            <td class="px-6 py-4 text-sm text-white">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $trans->created_at }}</td>
 
                                             @can('admin')

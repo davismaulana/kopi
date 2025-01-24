@@ -1,73 +1,68 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Payment') }}
-        </h2>
-    </x-slot>
+    <h1 class="text-3xl font-bold mb-8 text-center text-espresso">Payment History</h1>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg">
+                <div class="p-6 text-espresso">
                     <div class="container mx-auto px-4 py-8">
-                        <h1 class="text-3xl font-bold mb-6 dark:text-white">Payment History</h1>
                         <div class="overflow-x-auto">
                             <table class="min-w-full bg-gray-700  rounded-lg shadow-sm">
-                                <thead class="bg-gray-50">
+                                <thead class="bg-espresso">
                                     <tr>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Customer Name</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Menu(s) Ordered
                                         </th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Payment Method</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Amount</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Payment Date</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Status</th>
                                         @can('admin')
                                             <th
-                                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-gray-700">
+                                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                                 Actions</th>
                                         @endcan
 
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200">
+                                <tbody class="divide-y divide-latte bg-latte">
                                     @foreach ($payments as $payment)
                                         <tr class="">
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500 ">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $payment->customer_name }}</td>
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 @foreach ($payment->menus as $menus)
                                                     <div>
                                                         {{ $menus->name }} (x{{ $menus->pivot->count }})
                                                     </div>
                                                 @endforeach
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500 ">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $payment->payment_method }}
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 Rp. {{ number_format($payment->amount, 2, ',', '.') }}
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500 ">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $payment->payment_date }}
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-white bg-gray-500 ">
+                                            <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $payment->status }}
                                             </td>
                                             @can('admin')
-                                                <td class="px-6 py-4 text-sm bg-gray-500">
+                                                <td class="px-6 py-4 text-sm">
                                                     <div class="flex space-x-2">
                                                         <button onclick="openModal({{ $payment->id }})"
                                                             class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">View</button>

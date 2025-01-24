@@ -15,7 +15,7 @@
                 <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-user-friends mr-2 text-blue-500 fa-2x"></i>
+                            <i class="fas fa-user-friends mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Customers</p>
@@ -28,7 +28,7 @@
                 <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-utensils mr-2 text-green-500 fa-2x"></i>
+                            <i class="fas fa-utensils mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Menus</p>
@@ -41,7 +41,7 @@
                 <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-receipt mr-2 text-yellow-500 fa-2x"></i>
+                            <i class="fas fa-receipt mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Payments</p>
@@ -54,7 +54,7 @@
                 <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-users mr-2 text-red-500 fa-2x"></i>
+                            <i class="fas fa-users mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Users</p>

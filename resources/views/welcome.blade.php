@@ -1214,6 +1214,30 @@
             }
         </style>
     @endif
+
+    <style>
+        /* Custom Arrow Styles */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+    
+        /* Custom Dot Styles */
+        .swiper-pagination-bullet {
+            background-color: rgba(255, 255, 255, 0.5);
+            width: 12px;
+            height: 12px;
+            margin: 0 8px !important;
+            transition: background-color 0.3s ease;
+        }
+    
+        .swiper-pagination-bullet-active {
+            background-color: rgba(139, 69, 19, 0.8);
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased dark:text-white/50">
@@ -1315,7 +1339,7 @@
             </main>
 
             <!-- Footer -->
-            <footer class="py-8 text-center text-sm text-white/70">
+            <footer class="py-8 mt-8 text-center text-sm text-white/70">
                 Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
             </footer>
         </div>

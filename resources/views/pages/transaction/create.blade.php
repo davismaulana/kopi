@@ -1,147 +1,121 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create New Transaction') }}
-        </h2>
-    </x-slot>
+    <h1 class="text-3xl font-bold mb-8 text-center text-espresso">Create Transaction</h1>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="container mx-auto px-4 py-8">
-                        <form action="{{ route('transaction.store') }}" method="POST"
-                            class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
-                            @csrf
+            <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg">
+                <div class="container mx-auto px-4 py-8">
+                    <form action="{{ route('transaction.store') }}" method="POST" class="bg-latte p-6 rounded-lg">
+                        @csrf
 
-                            <!-- Customer Name -->
-                            <div class="mb-4">
-                                <label for="customer_name"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Customer
-                                    Name</label>
-                                <input type="text" name="customer_name" id="customer_name"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                    required value="{{ old('customer_name') }}">
-                            </div>
-                            @error('customer_name')
-                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                            @enderror
+                        <!-- Customer Name -->
+                        <div class="mb-4">
+                            <x-input-label for="customer_name" :value="__('Customer Name')" />
+                            <x-text-input type="text" name="customer_name" id="customer_name"
+                                class="mt-1 block w-full" required value="{{ old('customer_name') }}" />
+                        </div>
+                        @error('customer_name')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
 
-                            <!-- Menus -->
-                            <div class="mb-3">
-                                <label for="menus"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Menus</label>
-                                <div id="menus-container">
-                                    <!-- Initial Menu Item -->
-                                    <div class="menu-item mb-3">
-                                        <select name="menus[0][id]"
-                                            class="menu-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                            required>
-                                            <option value="">Select a menu</option>
-                                            @foreach ($menus as $menu)
-                                                @if ($menu->stock == 0)
-                                                <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}" disabled>
+                        <!-- Menus -->
+                        <div class="mb-3">
+                            <x-input-label for="menus" :value="__('Menu')" />
+                            <div id="menus-container">
+                                <!-- Initial Menu Item -->
+                                <div class="menu-item mb-3">
+                                    <select name="menus[0][id]"
+                                        class="menu-select mt-1 block w-full rounded-md border-espresso bg-latte text-espresso focus:border-caramel focus:ring-caramel rounded-md shadow-sm"
+                                        required>
+                                        <option value="">Select a menu</option>
+                                        @foreach ($menus as $menu)
+                                            @if ($menu->stock == 0)
+                                                <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}"
+                                                    disabled>
                                                     {{ $menu->name }} - Rp.{{ $menu->price }} - Stock:
                                                     {{ $menu->stock }}
                                                 </option>
-                                                @else
+                                            @else
                                                 <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}">
                                                     {{ $menu->name }} - Rp.{{ $menu->price }} - Stock:
                                                     {{ $menu->stock }}
                                                 </option>
-                                                @endif
-                                                
-                                            @endforeach
-                                        </select>
-                                        @error('menus[0][id]')
-                                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                                        @enderror
-                                        <input type="number" name="menus[0][quantity]"
-                                            class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                            placeholder="Quantity" required min="1">
-                                        @error('menus[0][quantity]')
-                                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <button type="button" id="add-menu"
-                                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
-                                    Add Another Menu
-                                </button>
-                            </div>
-
-                            <!-- Payment Method -->
-                            <div class="mb-4">
-                                <label for="payment_method"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Payment
-                                    Method</label>
-                                <select name="payment_method" id="payment_method"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                    required>
-                                    <option value="">Select a payment method</option>
-                                    <option value="Cash">Cash</option>
-                                    <option value="Credit Card">Credit Card</option>
-                                    <option value="Online Payment">Online Payment</option>
-                                </select>
-                                @error('payment_method')
-                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Payment Status -->
-                            <div class="mb-4">
-                                <label for="payment_status"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Payment
-                                    Status</label>
-                                <select name="payment_status" id="payment_status"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                    required>
-                                    <option value="">Select a payment status</option>
-                                    <option value="unpaid">Unpaid</option>
-                                    <option value="paid">Paid</option>
-                                </select>
-                                @error('payment_status')
-                                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Total Price -->
-                            <div class="mb-4">
-                                <label for="total_price"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Total
-                                    Price</label>
-                                <input type="text" name="total_price" id="total_price"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                                    disabled>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="flex justify-end">
-                                <a href="{{ route('transaction.index') }}">
-                                    <button type="button"
-                                        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 me-4">
-                                        Cancel
-                                    </button>
-                                </a>
-                                <button type="submit"
-                                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
-                                    Create Transaction
-                                </button>
-                            </div>
-
-                            <!-- Error Messages -->
-                            @if ($errors->any())
-                                <div class="text-red-500 text-sm mt-3">
-                                    <strong>Please correct the following errors:</strong>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
+                                            @endif
                                         @endforeach
-                                    </ul>
+                                    </select>
+                                    @error('menus[0][id]')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                    @enderror
+                                    <x-text-input type="number" name="menus[0][quantity]" class="mt-2 block w-full"
+                                        placeholder="Quantity" required min="1" />
+                                    @error('menus[0][quantity]')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                            @endif
-                        </form>
-                    </div>
+                            </div>
+                            <x-primary-button-nonsubmit id="add-menu">{{ __('Add Another Menu') }} </x-primary-button>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="mb-4">
+                            <x-input-label for="payment_method" :value="__('Payment Method')" />
+                            <select name="payment_method" id="payment_method"
+                                class="mt-1 block w-full rounded-md shadow-sm text-espresso border-espresso focus:border-caramel focus:ring-caramel bg-latte placeholder-gray-400"
+                                required>
+                                <option value="">Select a payment method</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Credit Card">Credit Card</option>
+                                <option value="Online Payment">Online Payment</option>
+                            </select>
+                            @error('payment_method')
+                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Payment Status -->
+                        <div class="mb-4">
+                            <x-input-label for="payment_status" :value="__('Payment Status')" />
+                            <select name="payment_status" id="payment_status"
+                                class="mt-1 block w-full rounded-md shadow-sm text-espresso border-espresso focus:border-caramel focus:ring-caramel bg-latte placeholder-gray-400"
+                                required>
+                                <option value="">Select a payment status</option>
+                                <option value="unpaid">Unpaid</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                            @error('payment_status')
+                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Total Price -->
+                        <div class="mb-4">
+                            <x-input-label for="total_price" :value="__('Total Price')" />
+                            <x-text-input :disabled="true" type="text" name="total_price" id="total_price" class="mt-1 block w-full" />
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end">
+                            <a href="{{ route('transaction.index') }}">
+                                <button type="button"
+                                    class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 me-4">
+                                    Cancel
+                                </button>
+                            </a>
+                            <x-primary-button>Create Transaction</x-primary-button>
+                        </div>
+
+                        <!-- Error Messages -->
+                        @if ($errors->any())
+                            <div class="text-red-500 text-sm mt-3">
+                                <strong>Please correct the following errors:</strong>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </form>
                 </div>
             </div>
         </div>
@@ -160,18 +134,33 @@
                 newMenuItem.classList.add('menu-item', 'mb-3');
                 newMenuItem.innerHTML = `
                     <select name="menus[${menuCount}][id]"
-                        class="menu-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
+                        class="menu-select mt-1 block w-full rounded-md border-espresso bg-latte text-espresso focus:border-caramel focus:ring-caramel rounded-md shadow-sm"
                         required>
                         <option value="">Select a menu</option>
                         @foreach ($menus as $menu)
-                            <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}">
-                                {{ $menu->name }} - Rp.{{ $menu->price }} - Stock: {{ $menu->stock }}
-                            </option>
+                            @if ($menu->stock == 0)
+                                <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}" disabled>
+                                    {{ $menu->name }} - Rp.{{ $menu->price }} - Stock:
+                                    {{ $menu->stock }}
+                                </option>
+                            @else
+                                <option value="{{ $menu->id }}" data-stock="{{ $menu->stock }}">
+                                    {{ $menu->name }} - Rp.{{ $menu->price }} - Stock:
+                                    {{ $menu->stock }}
+                                </option>
+                            @endif
+                                            
                         @endforeach
                     </select>
-                    <input type="number" name="menus[${menuCount}][quantity]"
-                        class="form-control mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
-                        placeholder="Quantity" required min="1">
+                     @error('menus[${menuCount}][id]')
+                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                    @enderror
+                                    <x-text-input type="number" name="menus[${menuCount}][quantity]" class="mt-2 block w-full"
+                                        placeholder="Quantity" required min="1" />
+                                    @error('menus[${menuCount}][quantity]')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                    @enderror
+                    
                 `;
                 menusContainer.appendChild(newMenuItem);
                 menuCount++;

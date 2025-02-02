@@ -21,7 +21,7 @@ class UserController extends Controller
         $countAdmin = $this->userService->countAdmin();
         $countCashier = $this->userService->countCashier();
         $countCustomer = $this->userService->countCustomer();
-        $users = $this->userService->getAllUsers()->sortBy('name');
+        $users = $this->userService->getAllUsers()->sortDesc();
         return view('pages.user.index', compact('users','countUser','countAdmin','countCashier','countCustomer'));
     }
 

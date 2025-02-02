@@ -1,0 +1,17 @@
+<?php 
+
+namespace App\Repositories;
+
+use App\Models\User;
+use App\Repositories\Contracts\AuthRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AuthRepository implements AuthRepositoryInterface
+{
+    public function findByEmail(string $email)
+    {
+        return User::where('email', $email)->first();
+    }
+
+}

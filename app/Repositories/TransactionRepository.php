@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Repositories\Contracts\TransactionRepositoryInterface;
 use App\Services\CustomerService;
 use App\Services\MenuService;
 

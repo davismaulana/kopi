@@ -1224,7 +1224,7 @@
             border-radius: 50%;
             transition: background-color 0.3s ease;
         }
-    
+
         /* Custom Dot Styles */
         .swiper-pagination-bullet {
             background-color: rgba(255, 255, 255, 0.5);
@@ -1233,7 +1233,7 @@
             margin: 0 8px !important;
             transition: background-color 0.3s ease;
         }
-    
+
         .swiper-pagination-bullet-active {
             background-color: rgba(139, 69, 19, 0.8);
         }
@@ -1299,14 +1299,12 @@
                                             <span class="block">Amazing Vibes</span>
                                         </h2>
                                         <p class="text-lg mb-8">BE PART OF THE COFFEE LOVERS</p>
-                                        <p class="text-sm">
-                                            
-                                        </p>
                                     </div>
-                
+
                                     <!-- Right Column: Image -->
                                     <div class="flex justify-center">
-                                        <img src="{{ asset('images/coffee.png') }}" alt="Coffee Image" class="w-[600px] h-auto">
+                                        <img src="{{ asset('images/coffee.png') }}" alt="Coffee Image"
+                                            class="w-[600px] h-auto">
                                     </div>
                                 </div>
                             </div>
@@ -1314,17 +1312,47 @@
 
                         <!-- Slide 2 -->
                         <div class="swiper-slide">
-                            <div class="flex flex-col items-center justify-center h-96 text-white">
-                                <h2 class="text-3xl font-bold">Slide 2</h2>
-                                <p class="mt-4">This is the second slide.</p>
+                            <div class="flex flex-col items-center justify-center h-[500px] text-white">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-screen items-center p-8">
+                                    <!-- Left Column: Description -->
+                                    <div class="text-white">
+                                        <h2 class="text-7xl font-bold mb-4">
+                                            <span class="block">Discover</span>
+                                            <span class="block">The World of</span>
+                                            <span class="block">Coffee Beans</span>
+                                        </h2>
+                                        <p class="text-lg mb-8">FROM ETHIOPIA TO COLOMBIA</p>
+                                    </div>
+
+                                    <!-- Right Column: Image -->
+                                    <div class="flex justify-center">
+                                        <img src="{{ asset('images/coffee-bean.png') }}" alt="Coffee Image"
+                                            class="w-[600px] h-auto">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Slide 3 -->
                         <div class="swiper-slide">
-                            <div class="flex flex-col items-center justify-center h-96 text-white">
-                                <h2 class="text-3xl font-bold">Slide 3</h2>
-                                <p class="mt-4">This is the third slide.</p>
+                            <div class="flex flex-col items-center justify-center h-[500px] text-white">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-screen items-center p-8">
+                                    <!-- Left Column: Description -->
+                                    <div class="text-white">
+                                        <h2 class="text-7xl font-bold mb-4">
+                                            <span class="block">Brew Your</span>
+                                            <span class="block">Perfect Cup</span>
+                                            <span class="block">At Home</span>
+                                        </h2>
+                                        <p class="text-lg mb-8">MASTER THE ART OF COFFEE MAKING</p>
+                                    </div>
+
+                                    <!-- Right Column: Image -->
+                                    <div class="flex justify-center">
+                                        <img src="{{ asset('images/cappuchino.png') }}" alt="Coffee Image"
+                                            class="w-[600px] h-auto">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,7 @@ class MenuController extends Controller
 
     public function index()
     {
-        $menus = $this->menuService->getAllMenus()->sortBy('name');
+        $menus = $this->menuService->getAllMenus()->sortDesc();
         $countMenu = $this->menuService->countData();
         $countFood = $this->menuService->countFood();
         $countDrink = $this->menuService->countDrink();

@@ -1,16 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Customer') }}
-        </h2>
-    </x-slot>
+    <h1 class="text-3xl font-bold mb-8 text-center text-espresso">Customer Data</h1>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg">
                 <div class="p-6 text-espresso">
-                    <div class="container mx-auto px-4 py-8">
-                        <h1 class="text-3xl font-bold mb-6">Customer Data</h1>
+                    <div class="container mx-auto px-4 py-4">
                         <a href="{{ route('customer.create') }}"
                             class="bg-espresso text-latte px-4 py-2 rounded hover:bg-caramel hover:text-espresso mb-6 inline-block">
                             Add New Customer

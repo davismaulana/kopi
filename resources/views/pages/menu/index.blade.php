@@ -119,9 +119,9 @@
 
                             <!-- Modal (Hidden by default) -->
                             <div id="viewModal"
-                                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+                                class="fixed inset-0 bg-espresso bg-opacity-50 flex justify-center items-center hidden">
                                 <div
-                                    class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+                                    class="bg-latte text-espresso p-8 rounded-lg shadow-lg max-w-lg w-full">
                                     <div class="mb-4">
                                         <img id="menuImage" alt="Menu Image"
                                             class="w-80 h-80 object-cover rounded-lg mx-auto mb-4">

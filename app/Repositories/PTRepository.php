@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\PaymentTransaction;
+use App\Repositories\Contracts\PTRepositoryInterface;
 
 class PTRepository implements PTRepositoryInterface
 {

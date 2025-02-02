@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuController;
@@ -36,4 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment/{id}/view', [PaymentController::class, 'view']);
 });
 
-require __DIR__.'/auth.php';
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
+        ->name('login');
+
+// require __DIR__.'/auth.php';

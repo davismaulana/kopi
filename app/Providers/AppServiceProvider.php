@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Repositories\AuthRepository;
+use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\CustomerRepository;
 use App\Repositories\CustomerRepositoryInterface;
 use App\Repositories\MenuRepository;
@@ -62,6 +64,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserService::class, function ($app) {
             return new UserService($app->make(UserRepositoryInterface::class));
         });
+
+        $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
 
     }
 

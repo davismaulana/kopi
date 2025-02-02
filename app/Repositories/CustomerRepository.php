@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
+use App\Repositories\Contracts\CustomerRepositoryInterface;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {

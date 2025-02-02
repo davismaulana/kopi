@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Menu;
 use App\Models\StockData;
+use App\Repositories\Contracts\MenuRepositoryInterface;
 
 class MenuRepository implements MenuRepositoryInterface
 {

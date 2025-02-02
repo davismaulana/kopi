@@ -5,7 +5,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg">
                 <div class="p-6 text-espresso">
-                    <div class="container mx-auto px-4 py-8">
+                    <div class="container mx-auto px-4 py-4">
                         <div class="overflow-x-auto">
                             <table class="min-w-full bg-gray-700  rounded-lg shadow-sm">
                                 <thead class="bg-espresso">
@@ -86,9 +86,9 @@
 
                             <!-- Modal (Hidden by default) -->
                             <div id="viewModal"
-                                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+                                class="fixed inset-0 bg-espresso bg-opacity-50 flex justify-center items-center hidden">
                                 <div
-                                    class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+                                    class="bg-latte text-espresso p-8 rounded-lg shadow-lg max-w-lg w-full">
                                     <h1 class="text-xl font-bold mb-4 text-center">Payment Receipt</h1>
                                     <div id="menuDetails" class="space-y-4">
                                         <!-- Receipt content will be dynamically inserted here -->

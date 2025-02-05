@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    public function index()
+    public function index($request)
     {
         $totalCustomers = $this->dashboardService->totalCustomer();
         $totalMenus = $this->dashboardService->totalMenus();
@@ -26,7 +26,8 @@ class DashboardController extends Controller
         $topSales = $this->dashboardService->topSales();
         $topMenus = $this->dashboardService->topMenus();
 
-        
+        $user = $request->user(); 
+
         return response()->json([
             'totalCustomers' => $totalCustomers,
             'totalMenus' => $totalMenus,
@@ -34,7 +35,8 @@ class DashboardController extends Controller
             'totalPayments' => $totalPayments,
             'totalUsers' => $totalUsers,
             'topSales' => $topSales,
-            'topMenus' => $topMenus
+            'topMenus' => $topMenus,
+            'user' => $user
         ],200);
     }
 }

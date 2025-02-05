@@ -4,7 +4,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg">
-                <form action="{{ route('user.store') }}" method="POST" class="bg-latte p-6 rounded-lg shadow-md">
+                <form class="bg-latte p-6 rounded-lg shadow-md">
                     @csrf
                     <div class="mb-4">
                         <x-input-label for="name" :value="__('Name')" />
@@ -58,4 +58,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            axios.post('http://127.0.0.1:8000/api/user', formData)
+                .then(response => {
+                    alert('User created successfully');
+                })
+                .catch(error => {
+                    if (error.response) {
+                        const errors = error.response.data.errors;
+                        let errorMessage = '';
+                        for (const key in errors) {
+                            errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+                        }
+                        alert(errorMessage);
+                    } else {
+                        alert('An error occured. Please try again later')
+                    }
+                })
+        })
+    </script>
 </x-app-layout>

@@ -10,8 +10,9 @@ class UserRepository implements UserRepositoryInterface
 {
     public function all()
     {
-        $userId = Auth::user()->id;
-        return User::where('id', '!=', $userId)->get();
+        // $userId = Auth::user()->id;
+        // return User::where('id', '!=', $userId)->get();
+        return User::all();
     }
 
     public function find($id)

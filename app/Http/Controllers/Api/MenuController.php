@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
 {
@@ -32,7 +34,7 @@ class MenuController extends Controller
 
     public function searchSort(Request $request) {}
 
-    public function view($id)
+    public function show($id)
     {
         $menu = $this->menuService->getMenu($id);
 
@@ -66,6 +68,15 @@ class MenuController extends Controller
             $rules['name'] = 'required';
         }
 
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ]);
+        }
+
         $data = $request->validate($rules);
 
         if ($request->hasFile('image')) {
@@ -76,9 +87,12 @@ class MenuController extends Controller
 
         $data['name'] = ucwords(strtolower($data['name']));
 
-        $this->menuService->createMenu($data);
+        $menu = $this->menuService->createMenu($data);
 
-        return redirect()->route('menu.index')->with('success', 'Menu created successfully.');
+        return response()->json([
+            'message' => 'Menu created successfully',
+            'data' => $menu
+        ],201);
     }
 
     public function edit($id)
@@ -89,27 +103,58 @@ class MenuController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $menu = $this->menuService->getMenu($id);
+
+        if (!$menu) {
+            return response()->json([
+                'message' => 'Menu not found'
+            ],404);
+        }
+
+        $rules = [
             'name' => 'required|unique:menus,name,' . $id,
             'price' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
             'category' => 'required|in:food,drink',
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ],422);
+        }
+
+        $data = $validator->validated();
 
         $data['name'] = ucwords(strtolower($data['name']));
 
         if ($request->hasFile('image')) {
+            if ($menu->image && Storage::disk('public')->exists($menu->image)) {
+                Storage::disk('public')->delete($menu->image);
+            }
+
             $data['image'] = $request->file('image')->store('menu_images', 'public'); 
+        } else {
+            $data['image'] = $menu->image;
         }
 
-        $this->menuService->updateMenu($id, $data);
-        return redirect()->route('menu.index')->with('success', 'Menu updated successfully.');
+        $updated = $this->menuService->updateMenu($id, $data);
+
+        return response()->json([
+            'message' => 'Edit menu successfully',
+            'data' => $updated
+        ],200);
     }
 
     public function destroy($id)
     {
         $this->menuService->deleteMenu($id);
-        return redirect()->route('menu.index')->with('success', 'Menu deleted successfully.');
+        return response()->json([
+            'message' => 'Delete menu successfull'
+        ],200);
     }
 }

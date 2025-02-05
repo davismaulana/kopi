@@ -30,6 +30,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     }
 });
 
+
 async function logout() {
     const token = localStorage.getItem('token');
 

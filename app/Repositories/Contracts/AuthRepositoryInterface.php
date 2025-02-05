@@ -8,4 +8,6 @@ use Illuminate\Http\Request;
 interface AuthRepositoryInterface
 {
     public function findByEmail(string $email); 
+
+    public function register($request);
 }

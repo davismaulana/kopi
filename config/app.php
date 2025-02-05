@@ -127,7 +127,7 @@ return [
     //     /*
     // * Package Service Providers...
     // */
-    //     RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+    //     Laravel\Sanctum\SanctumServiceProvider::class,
     // ],
 
     'Alert' => RealRashid\SweetAlert\Facades\Alert::class,

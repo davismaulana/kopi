@@ -12,53 +12,57 @@
             <!-- Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Total Customers Card -->
-                <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <i class="fas fa-user-friends mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Customers</p>
-                            <p class="text-3xl font-semibold">{{ $totalCustomers }}</p>
+                            <p class="text-3xl font-semibold" id="totalCustomers"></p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Total Menus Card -->
-                <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <i class="fas fa-utensils mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Menus</p>
-                            <p class="text-3xl font-semibold">{{ $totalMenus }}</p>
+                            <p class="text-3xl font-semibold" id="totalMenus"></p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Total Payments Card -->
-                <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <i class="fas fa-receipt mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Payments</p>
-                            <p class="text-3xl font-semibold">{{ $totalPayments }}</p>
+                            <p class="text-3xl font-semibold" id="totalPayments"></p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Total Users Card -->
-                <div class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
+                <div
+                    class="bg-latte hover:bg-espresso text-espresso hover:text-latte overflow-hidden shadow-md sm:rounded-lg p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <i class="fas fa-users mr-2 fa-2x"></i>
                         </div>
                         <div class="ml-4">
                             <p class="text-xl font-medium">Total Users</p>
-                            <p class="text-3xl font-semibold">{{ $totalUsers }}</p>
+                            <p class="text-3xl font-semibold" id="totalUsers"></p>
                         </div>
                     </div>
                 </div>
@@ -80,72 +84,95 @@
     </div>
 
     <script>
-        // Line Chart: Sales Over Time
         const salesCtx = document.getElementById('salesChart').getContext('2d');
         const gradient = salesCtx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)'); // Indigo
         gradient.addColorStop(1, 'rgba(99, 102, 241, 0.2)'); // Lighter Indigo
 
-        const salesChart = new Chart(salesCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Total Sales',
-                    data: @json(array_values($salesData)), // Use real sales data
-                    borderColor: 'rgba(99, 102, 241, 1)',
-                    borderWidth: 2,
-                    backgroundColor: gradient,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    },
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(200, 200, 200, 0.2)', // Light gridlines
-                        },
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(200, 200, 200, 0.2)', // Light gridlines
-                        },
-                    },
-                },
-            }
-        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const token = localStorage.getItem('auth_token');
 
-        // Bar Chart: Top Selling Menus
-        const topMenusCtx = document.getElementById('topMenusChart').getContext('2d');
-        const topMenusChart = new Chart(topMenusCtx, {
-            type: 'bar',
-            data: {
-                labels: @json(array_keys($topMenusData)), // Menu names
-                datasets: [{
-                    label: 'Quantity Sold',
-                    data: @json(array_values($topMenusData)), // Quantities sold
-                    backgroundColor: 'rgba(0, 245, 71, 0.6)',
-                    borderColor: 'rgba(0, 245, 71, 1)',
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            console.log(token);
+
+            fetch("http://127.0.0.1:8000/api/dashboard", {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
                 }
-            }
+            }) // Ganti dengan route API yang benar
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("totalCustomers").innerText = data.totalCustomers;
+                    document.getElementById("totalMenus").innerText = data.totalMenus;
+                    document.getElementById("totalPayments").innerText = data.totalPayments;
+                    document.getElementById("totalUsers").innerText = data.totalUsers;
+
+                    const salesChart = new Chart(salesCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+                                'Oct', 'Nov', 'Dec'
+                            ],
+                            datasets: [{
+                                label: 'Total Sales',
+                                data: data.topSales, // Use real sales data
+                                borderColor: 'rgba(99, 102, 241, 1)',
+                                borderWidth: 2,
+                                backgroundColor: gradient,
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                tooltip: {
+                                    enabled: true,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                },
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: 'rgba(200, 200, 200, 0.2)', // Light gridlines
+                                    },
+                                },
+                                x: {
+                                    grid: {
+                                        color: 'rgba(200, 200, 200, 0.2)', // Light gridlines
+                                    },
+                                },
+                            },
+                        }
+                    })
+
+                    // Bar Chart: Top Selling Menus
+                    const topMenusCtx = document.getElementById('topMenusChart').getContext('2d');
+                    const topMenusChart = new Chart(topMenusCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: 'Top Menus', // Menu names
+                            datasets: [{
+                                label: 'Quantity Sold',
+                                data: data.topMenus, // Quantities sold
+                                backgroundColor: 'rgba(0, 245, 71, 0.6)',
+                                borderColor: 'rgba(0, 245, 71, 1)',
+                                borderWidth: 1,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                })
+                .catch(error => console.error("Error fetching data:", error));
         });
     </script>
 </x-app-layout>

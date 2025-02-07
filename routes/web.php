@@ -25,8 +25,7 @@ Route::get('/', function () {
 //     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 // });
 
-
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,11 +41,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('transaction', TransactionController::class);
     Route::resource('customer', CustomerController::class);
     Route::resource('payment', PaymentController::class);
-    
+
     Route::get('/payment/{id}/view', [PaymentController::class, 'view']);
+
+    
 });
 
-// Route::get('login', [AuthenticatedSessionController::class, 'create'])
-//         ->name('login');
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
 
-require __DIR__.'/auth.php';
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+
+// require __DIR__.'/auth.php';

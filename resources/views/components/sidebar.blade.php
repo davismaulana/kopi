@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="p-4">
         <h1 class="text-2xl font-bold text-center">
-            {{-- <i class="fa-regular fa-user"></i> {{ Auth::user()->name }} --}}
+            <i class="fa-regular fa-user"></i> {{ Auth::user()->name }} 
         </h1>
     </div>
 
@@ -113,6 +113,11 @@
     </nav>
 
     <!-- Logout Button -->
+    {{-- <div class="p-4 mt-auto text-right">
+        <button type="button" class="px-4 py-2 hover:bg-red-600 hover:text-latte rounded" id="logoutBtn">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </button>
+    </div> --}}
     <div class="p-4 mt-auto text-right">
         <form method="POST" action="{{ route('logout') }}">
             @csrf

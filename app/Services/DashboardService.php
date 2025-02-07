@@ -64,15 +64,14 @@ class DashboardService
         return $total;
     }
 
-    public function topSales()
-    {
-        $top = $this->dashboardRepository->topSales();
-        return $top;
-    }
-
     public function topMenus()
     {
         $top = $this->dashboardRepository->topMenus();
         return $top;
+    }
+
+    public function loanDates(){
+        $dates = $this->dashboardRepository->loanDates();
+        return $dates;
     }
 }

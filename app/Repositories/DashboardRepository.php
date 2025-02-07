@@ -8,15 +8,22 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
-    public function topSales()
+    public function loanDates()
     {
-        $top = Payment::selectRaw('SUM(amount) as total, MONTH(payment_date) as month')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->pluck('total', 'month')
-            ->toArray();
+        $date = Payment::selectRaw('DATE(created_at) as created_date')
+                ->groupBy('created_date')
+                ->pluck('created_date');
 
-        return $top;
+        return $date;
+    }
+
+    public function loanCounts()
+    {
+        $counts = Payment::selectRaw('COUNT(*) as count')
+                ->groupByRaw('DATE(created_at)')
+                ->pluck('count');
+
+        return $counts;
     }
 
     public function topMenus()

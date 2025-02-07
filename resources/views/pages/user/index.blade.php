@@ -50,10 +50,10 @@
             <div class="bg-latte overflow-hidden shadow-md rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="container mx-auto px-4 py-4">
-                        <a href="{{ route('user.create') }}"
+                        <button onclick="openModal('{{ route('user.create') }}')"
                             class="bg-espresso text-white px-4 py-2 rounded hover:bg-caramel hover:text-espresso mb-6 inline-block">
                             Add New User
-                        </a>
+                        </button>
                         <div class="overflow-x-auto">
                             <table class="min-w-full bg-gray-700 rounded-lg shadow-sm" id="usersTable">
                                 <thead class="bg-espresso">
@@ -71,33 +71,6 @@
                                 <tbody class="userTableBody divide-y divide-latte bg-latte">
                                     <!-- Rows will be dynamically inserted here -->
                                 </tbody>
-                                {{-- <tbody class="divide-y divide-latte bg-latte">
-                                    @foreach ($users as $user)
-                                        <tr class="">
-                                            <td class="px-6 py-4 text-md text-espresso">{{ $user->name }}</td>
-                                            <td class="px-6 py-4 text-md text-espresso">{{ $user->email }}</td>
-                                            <td class="px-6 py-4 text-md text-espresso">{{ $user->level }}</td>
-                                            <td class="px-6 py-4 text-sm">
-                                                <div class="flex space-x-2">
-                                                    <!-- Edit Button -->
-                                                    <button onclick="openModal('{{ route('user.edit', $user->id) }}')"
-                                                        class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
-                                                        Edit
-                                                    </button>
-                                                    <!-- Delete Button -->
-                                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST"
-                                                        onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody> --}}
-
                             </table>
                         </div>
                     </div>
@@ -114,10 +87,12 @@
     </div>
 
     <script>
-        function fetchUsers() {
-            fetch("http://127.0.0.1:8000/api/user")
-                .then(response => response.json())
-                .then(data => {
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://127.0.0.1:8000/api/user",
+                type: "GET",
+
+                success: function(data) {
                     document.getElementById("countUser").innerText = data.countUser;
                     document.getElementById("countAdmin").innerText = data.countAdmin;
                     document.getElementById("countCashier").innerText = data.countCashier;
@@ -128,42 +103,35 @@
 
                     users.forEach(user => {
                         rows += `
-                        
-                            <tr>
-                                <td class="px-6 py-4 text-md text-espresso">${user.name}</td>
-                                <td class="px-6 py-4 text-md text-espresso">${user.email}</td>
-                                <td class="px-6 py-4 text-md text-espresso">${user.level}</td>
-                                <td class="px-6 py-4 text-sm">
-                                    <div class="flex space-x-2">
-                                        <!-- Edit Button -->
-                                        <button onclick="openModal('/user/${user.id}/edit')"
-                                            class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
-                                            Edit
-                                        </button>
-                                        <!-- Delete Button -->
-                                        <form action="/user/${user.id}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="submit"
-                                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            `;
-                        });
-
-                    // Update the table with the fetched rows
+                                    <tr>
+                                        <td class="px-6 py-4 text-md text-espresso">${user.name}</td>
+                                        <td class="px-6 py-4 text-md text-espresso">${user.email}</td>
+                                        <td class="px-6 py-4 text-md text-espresso">${user.level}</td>
+                                        <td class="px-6 py-4 text-sm">
+                                            <div class="flex space-x-2">
+                                                <!-- Edit Button -->
+                                                <button onclick="openModal('/user/${user.id}/edit')"
+                                                    class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+                                                    Edit
+                                                </button>
+                                                <!-- Delete Button -->
+                                                <form action="/user/${user.id}" method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <button type="submit"
+                                                        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                    });
                     usersTableBody.innerHTML = rows;
-                })
-                .catch(error => console.error('Error fetching users:', error));
-        }
+                }
+            })
 
-        // Fetch users when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchUsers();
-        });
+        })
 
         function openModal(url) {
             fetch(url)
@@ -178,6 +146,67 @@
         function closeModal() {
             document.getElementById('modal').classList.add('hidden');
         }
+
+        function submitForm() {
+            const form = document.getElementById('createUserForm');
+            const formData = new FormData(form);
+
+            axios.post('http://127.0.0.1:8000/api/user', formData)
+                .then(response => {
+                    Swal.fire({
+                        title: 'Create data Successfully',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+
+                    }).then(function() {
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    if (error.response) {
+                        const errors = error.response.data.errors;
+                        let errorMessage = '';
+                        for (const key in errors) {
+                            errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+                        }
+                        alert(errorMessage);
+                    } else {
+                        alert('An error occurred. Please try again later');
+                    }
+                });
+        }
+
+        function updateForm(id) {
+            const form = document.getElementById('editUserForm');
+            const formData = new FormData(form);
+
+            console.log(id);
+
+            axios.post('http://127.0.0.1:8000/api/user/${id}', formData)
+                .then(response => {
+                    Swal.fire({
+                        title: 'Update data Successfully',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+
+                    }).then(function() {
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    if (error.response) {
+                        const errors = error.response.data.errors;
+                        let errorMessage = '';
+                        for (const key in errors) {
+                            errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+                        }
+                        alert(errorMessage);
+                    } else {
+                        alert('An error occurred. Please try again later');
+                    }
+                });
+        }
+    
     </script>
 
 </x-app-layout>

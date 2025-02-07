@@ -9,19 +9,41 @@ use App\Http\Controllers\Api\UserController as ApiUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
 
-Route::middleware('auth:sanctum')->group(function(){
-    Route::get('/dashboard', [ApiDashboardController::class, 'index']);
+Route::middleware('web')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+
+
+    Route::get('/dashboard',  [ApiDashboardController::class, 'index']);
+    
+    Route::post('/logout',[AuthController::class, 'logout']);
+
+    Route::apiResource('customer', ApiCustomerController::class);
+
+    Route::apiResource('menu', ApiMenuController::class);
+    Route::apiResource('transaction', ApiTransactionController::class);
+});
+// Route::post('/login', [AuthController::class, 'login']);
+
+Route::apiResource('user', ApiUserController::class);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/logout',[AuthController::class, 'logout']);
+
+    Route::apiResource('customer', ApiCustomerController::class);
+
+    Route::apiResource('menu', ApiMenuController::class);
+    Route::apiResource('transaction', ApiTransactionController::class);
+
+   
 });
 // Route::get('/dashboard', [ApiDashboardController::class, 'index']);
 
-Route::apiResource('customer', ApiCustomerController::class);
 
-Route::apiResource('menu', ApiMenuController::class);
-Route::apiResource('transaction', ApiTransactionController::class);
-Route::apiResource('user', ApiUserController::class);
+
 
 // Route::middleware('auth:api')->get('/user', [ApiUserController::class, 'index']);
 

@@ -4,6 +4,7 @@ namespace App\Repositories\Contracts;
 
 interface DashboardRepositoryInterface
 {
-   public function topSales();
+   public function loanDates();
+   public function loanCounts();
    public function topMenus();
 }

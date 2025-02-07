@@ -21,7 +21,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- jQuery (required for Select2) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -59,6 +59,52 @@
             </main>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            if (localStorage.getItem('auth_token')) {
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    }
+                });
+            }
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // AJAX logout request
+                $.ajax({
+                    url: '/api/logout', // Pastikan route logout benar
+                    type: 'POST',
+                    data: {
+                        _token:'{{ csrf_token() }}', // Kirim CSRF token
+                    },
+                    success: function(response) {
+                        // Berhasil logout, arahkan ke halaman login
+                        Swal.fire({
+                            title: 'Logout Success',
+                            text: 'You have successfully logged out.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function() {
+                            // Redirect ke halaman login setelah logout
+                            window.location.replace("{{ route('login') }}");
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors (Optional)
+                        Swal.fire({
+                            title: 'Logout Failed',
+                            text: 'There was an error logging you out. Please try again.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

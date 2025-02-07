@@ -41,30 +41,19 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request)
-    {
-        try {
-            $response = $this->authService->login($request);
-
-            if (!$response['status']) {
-                return response()->json($response,401);
-            }
-            return response()->json($response);
-        } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => 'An unexpected error occured']);
-        }
+    {   
+        $response = $this->authService->login($request);
+        return response()->json($response, $response['status']);
     }
 
     public function logout(Request $request)
     {
-        try {
-            $repsonse = $this->authService->logout($request);
-            if (!$repsonse) {
-                throw new AuthenticationException('Logout failed');
-            }
-            // return response()->redirectTo('/');
-            return response()->json(['message' => 'Logout success'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 401);
-        }
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json(['message' => 'Logout successfull'], 200);
     }
 }

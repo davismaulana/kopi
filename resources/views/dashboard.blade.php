@@ -84,95 +84,37 @@
     </div>
 
     <script>
-        const salesCtx = document.getElementById('salesChart').getContext('2d');
-        const gradient = salesCtx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)'); // Indigo
-        gradient.addColorStop(1, 'rgba(99, 102, 241, 0.2)'); // Lighter Indigo
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const token = localStorage.getItem('auth_token');
+        // document.addEventListener('DOMContentLoaded', async () => {            
+        //     const token = localStorage.getItem('auth_token');
+        //         const response = await fetch('http://127.0.0.1:8000/api/dashboard', {
+        //             headers: {
+        //                 'Authorization': Bearer + token,
+        //                 'Accept': 'application/json'
+        //             }
+        //         });
+        //         const data = await response.json();
+        //     });
+        $(document).ready(function() {
+            var token = localStorage.getItem('auth_token');
 
             console.log(token);
 
-            fetch("http://127.0.0.1:8000/api/dashboard", {
+            $.ajax({
+                url: "http://127.0.0.1:8000/api/dashboard",
+                type: "GET",
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Accept': 'application/json'
+                },
+                success: function(data){
+                    $("#totalCustomers").text(data.totalCustomers);
+                    $("#totalMenus").text(data.totalMenus);
+                    $("#totalPayments").text(data.totalPayments);
+                    $("#totalUsers").text(data.totalUsers);
+
+                    // const salesCtx = document.getElementById('salesChart').getContext('2d')
                 }
-            }) // Ganti dengan route API yang benar
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("totalCustomers").innerText = data.totalCustomers;
-                    document.getElementById("totalMenus").innerText = data.totalMenus;
-                    document.getElementById("totalPayments").innerText = data.totalPayments;
-                    document.getElementById("totalUsers").innerText = data.totalUsers;
-
-                    const salesChart = new Chart(salesCtx, {
-                        type: 'line',
-                        data: {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-                                'Oct', 'Nov', 'Dec'
-                            ],
-                            datasets: [{
-                                label: 'Total Sales',
-                                data: data.topSales, // Use real sales data
-                                borderColor: 'rgba(99, 102, 241, 1)',
-                                borderWidth: 2,
-                                backgroundColor: gradient,
-                                fill: true,
-                                tension: 0.4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                tooltip: {
-                                    enabled: true,
-                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                },
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grid: {
-                                        color: 'rgba(200, 200, 200, 0.2)', // Light gridlines
-                                    },
-                                },
-                                x: {
-                                    grid: {
-                                        color: 'rgba(200, 200, 200, 0.2)', // Light gridlines
-                                    },
-                                },
-                            },
-                        }
-                    })
-
-                    // Bar Chart: Top Selling Menus
-                    const topMenusCtx = document.getElementById('topMenusChart').getContext('2d');
-                    const topMenusChart = new Chart(topMenusCtx, {
-                        type: 'bar',
-                        data: {
-                            labels: 'Top Menus', // Menu names
-                            datasets: [{
-                                label: 'Quantity Sold',
-                                data: data.topMenus, // Quantities sold
-                                backgroundColor: 'rgba(0, 245, 71, 0.6)',
-                                borderColor: 'rgba(0, 245, 71, 1)',
-                                borderWidth: 1,
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-
-                })
-                .catch(error => console.error("Error fetching data:", error));
-        });
+            })
+        })
     </script>
 </x-app-layout>

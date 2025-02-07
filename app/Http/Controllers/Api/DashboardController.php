@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\DashboardService;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -15,18 +16,17 @@ class DashboardController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    public function index($request)
+    public function index()
     {
         $totalCustomers = $this->dashboardService->totalCustomer();
         $totalMenus = $this->dashboardService->totalMenus();
         $totalTransactions = $this->dashboardService->totalTransaction();
         $totalPayments = $this->dashboardService->totalPayment();
         $totalUsers = $this->dashboardService->totalUser();
-
-        $topSales = $this->dashboardService->topSales();
+       
         $topMenus = $this->dashboardService->topMenus();
-
-        $user = $request->user(); 
+        $loanDates = $this->dashboardService->loanDates();
+        
 
         return response()->json([
             'totalCustomers' => $totalCustomers,
@@ -34,9 +34,8 @@ class DashboardController extends Controller
             'totalTransactions' => $totalTransactions,
             'totalPayments' => $totalPayments,
             'totalUsers' => $totalUsers,
-            'topSales' => $topSales,
+            'salesLabels' => $loanDates,
             'topMenus' => $topMenus,
-            'user' => $user
         ],200);
     }
 }

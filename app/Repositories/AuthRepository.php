@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRepository implements AuthRepositoryInterface
 {
-    public function findByEmail(string $email)
+    public function findUserByEmail(string $email)
     {
         return User::where('email', $email)->first();
     }

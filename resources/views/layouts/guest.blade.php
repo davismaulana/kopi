@@ -11,16 +11,18 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-b from-[#5D4037] to-[#000000]">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-latte">
             <div>
                 <a href="/">
-                    <h1 class="text-white font-bold text-3xl">
-                        <i class="fas fa-coffee mr-2 text-white"></i>Kopi
+                    <h1 class="text-espresso font-bold text-3xl">
+                        <i class="fas fa-coffee mr-2"></i>Kopi
                     </h1>
                 </a>
             </div>
@@ -29,5 +31,17 @@
                 {{ $slot }}
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            $(document).ready(function () {
+                if (localStorage.getItem('auth_token')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                        }
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

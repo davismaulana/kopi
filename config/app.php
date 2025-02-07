@@ -130,7 +130,7 @@ return [
     //     Laravel\Sanctum\SanctumServiceProvider::class,
     // ],
 
-    'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+    // 'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
 
 ];

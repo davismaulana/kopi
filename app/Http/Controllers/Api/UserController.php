@@ -19,8 +19,6 @@ class UserController extends Controller
 
     public function index()
     {
-      
-    
         $countUser = $this->userService->countUser();
         $countAdmin = $this->userService->countAdmin();
         $countCashier = $this->userService->countCashier();
@@ -46,12 +44,6 @@ class UserController extends Controller
         return response()->json(['message' => 'User not found'], 404);
     }
 
-
-    public function create()
-    {
-        return view('pages.user.create');
-    }
-
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -70,17 +62,11 @@ class UserController extends Controller
         ],201);
     }
 
-    public function edit($id)
-    {
-        $user = $this->userService->getUser($id);
-        return view('pages.user.edit', compact('user'));
-    }
-
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|unique:users,name,' . $id,
-            'email' => 'required|email|unique:users,email,' . $id,
+            'name' => 'required|string',
+            'email' => 'required|email',
             'level' => 'required|in:cashier,admin',
         ]);
 

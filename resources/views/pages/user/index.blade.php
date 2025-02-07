@@ -182,7 +182,7 @@
 
             console.log(id);
 
-            axios.post('http://127.0.0.1:8000/api/user/${id}', formData)
+            axios.put('http://127.0.0.1:8000/api/user/' + id, formData)
                 .then(response => {
                     Swal.fire({
                         title: 'Update data Successfully',

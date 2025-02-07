@@ -1,55 +1,39 @@
-<!-- resources/views/user/edit.blade.php -->
+<!-- resources/views/pages/user/create.blade.php -->
 <div>
-    <h2 class="text-2xl font-bold mb-4 text-espresso">Edit User</h2>
-
-    <form id="editUserForm" class="">
-
+    <h2 class="text-2xl font-bold mb-4 text-espresso">Update User</h2>
+    <form id="editUserForm" >
         @csrf
-        @method('PUT')
         <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-espresso">Name</label>
-            <input type="text" name="name" id="name"
-                class="mt-1 block w-full rounded-md shadow-sm bg-latte border-espresso text-espresso focus:ring-caramel focus:border-caramel focus:bg-latte focus:text-espresso placeholder-caramel"
-                required value="{{ $user->name }}">
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input type="text" name="name" id="name" class="mt-1 block w-full" value="{{ $user->name }}" required />
+            <div class="text-red-500 text-sm mt-1" id="name-error"></div>
         </div>
 
         <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-espresso">Email</label>
-            <input type="text" name="email" id="email"
-                class="mt-1 block w-full rounded-md shadow-sm bg-latte border-espresso text-espresso focus:ring-caramel focus:border-caramel focus:bg-latte focus:text-espresso placeholder-caramel"
-                required value="{{ $user->email }}">
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input type="email" name="email" id="email" class="mt-1 block w-full" value="{{ $user->name }}" required />
+            <div class="text-red-500 text-sm mt-1" id="email-error"></div>
         </div>
 
         <div class="mb-4">
-            <label for="level" class="block text-sm font-medium text-espresso">Level</label>
+            <x-input-label for="level" :value="__('Level')" />
             <select name="level" id="level"
-                class="mt-1 block w-full rounded-md shadow-sm bg-latte border-espresso text-espresso focus:ring-caramel focus:border-caramel focus:bg-latte focus:text-espresso placeholder-caramel"
-                required>
-                @if ($user->level == 'cashier')
-                    <option value="cashier" selected>Cashier</option>
-                    <option value="admin">Admin</option>
-                @elseif ($user->level == 'admin')
-                    <option value="cashier">Cashier</option>
-                    <option value="admin" selected>Admin</option>
-                @else
-                    <option value="cashier">Cashier</option>
-                    <option value="admin">Admin</option>
-                @endif
+                class="mt-1 block w-full rounded-md border-espresso bg-latte text-espresso focus:border-caramel focus:ring-caramel rounded-md shadow-sm" required>
+                <option value="cashier" class="text-espresso">Cashier</option>
+                <option value="admin" class="text-espresso">Admin</option>
             </select>
+            <div class="text-red-500 text-sm mt-1" id="level-error"></div>
         </div>
 
         <div class="flex justify-end">
-            <button type="button"
-                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 me-4"
-                onclick="closeModal()">
+            <button type="button" onclick="closeModal()"
+                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 me-4">
                 Cancel
             </button>
-
-            <button type="button" onclick="updateForm({{ $user->id }})"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
+            <button type="button" onclick="updateForm('{{ $user->id }}')"
+                class="bg-espresso text-white px-4 py-2 rounded-md hover:bg-caramel hover:text-espresso">
                 Update
             </button>
         </div>
     </form>
 </div>
-

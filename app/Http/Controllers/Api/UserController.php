@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,15 +66,16 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,  // Exclude the current user's email
             'level' => 'required|in:cashier,admin',
         ]);
 
         $removeSpaces = str_replace(' ', '', $data['name']);
-        $data['password'] = bcrypt($removeSpaces . '123');
+        $data['password'] = bcrypt($removeSpaces . '123');  // Optional: Set password
 
         $data = $this->userService->updateUser($id, $data);
+        
         return response()->json([
             'message' => 'Update successfull',
             'data' => $data

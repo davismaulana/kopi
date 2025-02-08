@@ -10,44 +10,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('/register', [AuthController::class, 'register']);
+
 Route::middleware('web')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
+
     Route::post('/login', [AuthController::class, 'login']);
 
-
-    Route::get('/dashboard',  [ApiDashboardController::class, 'index']);
-    
-    Route::post('/logout',[AuthController::class, 'logout']);
-
-    Route::apiResource('customer', ApiCustomerController::class);
-
-    Route::apiResource('menu', ApiMenuController::class);
-    Route::apiResource('transaction', ApiTransactionController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
-// Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::get('/dashboard',  [ApiDashboardController::class, 'index']);
+Route::apiResource('customer', ApiCustomerController::class);
+
+Route::apiResource('menu', ApiMenuController::class);
+Route::apiResource('transaction', ApiTransactionController::class);
 
 Route::apiResource('user', ApiUserController::class);
 
+Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::apiResource('customer', ApiCustomerController::class);
 
-    Route::post('/logout',[AuthController::class, 'logout']);
-
-    Route::apiResource('customer', ApiCustomerController::class);
-
-    Route::apiResource('menu', ApiMenuController::class);
-    Route::apiResource('transaction', ApiTransactionController::class);
-
-   
-});
-// Route::get('/dashboard', [ApiDashboardController::class, 'index']);
-
-
-
-
-// Route::middleware('auth:api')->get('/user', [ApiUserController::class, 'index']);
-
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+Route::apiResource('menu', ApiMenuController::class);
+Route::apiResource('transaction', ApiTransactionController::class);

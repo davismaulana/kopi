@@ -115,13 +115,9 @@
                                                     Edit
                                                 </button>
                                                 <!-- Delete Button -->
-                                                <form action="/user/${user.id}" method="POST"
-                                                    onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <button type="submit"
-                                                        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                                                </form>
+                                                <button type="button" onclick="deleteUser(${user.id})"
+                                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -151,7 +147,12 @@
             const form = document.getElementById('createUserForm');
             const formData = new FormData(form);
 
-            axios.post('http://127.0.0.1:8000/api/user', formData)
+            axios.post('http://127.0.0.1:8000/api/user', formData, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    }
+                })
                 .then(response => {
                     Swal.fire({
                         title: 'Create data Successfully',
@@ -176,37 +177,109 @@
                 });
         }
 
-        function updateForm(id) {
+        function updateForm() {
             const form = document.getElementById('editUserForm');
             const formData = new FormData(form);
+            const userId = form.getAttribute('data-user-id');
 
-            console.log(id);
+            Swal.fire({
+                title: 'Are you sure you want to update this user?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, update it!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post(`http://127.0.0.1:8000/api/user/${userId}`, formData, {
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            }
+                        })
+                        .then(response => {
+                            Swal.fire({
+                                title: 'Update data Successfully',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
 
-            axios.put('http://127.0.0.1:8000/api/user/' + id, formData)
-                .then(response => {
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        })
+                        .catch(error => {
+                            if (error.response) {
+                                const errors = error.response.data.errors;
+                                let errorMessage = '';
+                                for (const key in errors) {
+                                    errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+                                }
+                                alert(errorMessage);
+                            } else {
+                                alert('An error occurred. Please try again later');
+                            }
+                        });
+                } else {
                     Swal.fire({
-                        title: 'Update data Successfully',
-                        icon: 'success',
+                        title: 'Update cancelled',
+                        icon: 'info',
                         confirmButtonText: 'OK'
-
-                    }).then(function() {
-                        window.location.reload();
                     });
-                })
-                .catch(error => {
-                    if (error.response) {
-                        const errors = error.response.data.errors;
-                        let errorMessage = '';
-                        for (const key in errors) {
-                            errorMessage += `${key}: ${errors[key].join(', ')}\n`;
-                        }
-                        alert(errorMessage);
-                    } else {
-                        alert('An error occurred. Please try again later');
-                    }
-                });
+                }
+            })
+
+
         }
-    
+
+        function deleteUser(userId) {
+            Swal.fire({
+                title: 'Are you sure you want to delete this user?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`http://127.0.0.1:8000/api/user/${userId}`, {
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            }
+                        })
+                        .then(response => {
+                            Swal.fire({
+                                title: 'Update data Successfully',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        })
+                        .catch(error => {
+                            if (error.response) {
+                                const errors = error.response.data.errors;
+                                let errorMessage = '';
+                                for (const key in errors) {
+                                    errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+                                }
+                                alert(errorMessage);
+                            } else {
+                                alert('An error occurred. Please try again later');
+                            }
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'Delete cancelled',
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+        }
     </script>
 
 </x-app-layout>

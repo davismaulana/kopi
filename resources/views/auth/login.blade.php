@@ -12,7 +12,7 @@
                 autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <span id="emailError" class="text-red-500 mt-2"></span>
-            <div class="invalid-feedback text-caramel text-sm">
+            <div class="invalid-feedback text-gray-400 text-sm">
                 Please enter a valid email address.
             </div>
         </div>
@@ -26,7 +26,7 @@
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
             <span id="passwordError" class="text-red-500 mt-2"></span>
-            <div class="invalid-feedback text-caramel text-sm">
+            <div class="invalid-feedback text-gray-400 text-sm">
                 Please enter your password.
             </div>
 

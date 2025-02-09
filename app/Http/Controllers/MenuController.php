@@ -27,13 +27,7 @@ class MenuController extends Controller
 
     public function view($id)
     {
-        $menu = $this->menuService->getMenu($id);
-
-        if ($menu) {
-            return response()->json($menu);
-        }
-
-        return response()->json(['message' => 'Menu not found'], 404);
+        return view('pages.menu.show' , compact('id'));
     }
 
 

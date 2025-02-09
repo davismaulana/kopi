@@ -251,7 +251,7 @@
                         })
                         .then(response => {
                             Swal.fire({
-                                title: 'Update data Successfully',
+                                title: 'Delete data Successfully',
                                 icon: 'success',
                                 confirmButtonText: 'OK'
 

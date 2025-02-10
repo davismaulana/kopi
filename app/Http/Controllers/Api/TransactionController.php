@@ -35,9 +35,9 @@ class TransactionController extends Controller
     }
     public function index()
     {
-        $transactions = $this->transactionService->getAllTransactions()->sortByDesc('created_at');
+        $transactions = $this->transactionService->getAllTransactions();
         return response()->json([
-            'transaction' => $transactions
+            'transactions' => $transactions
         ],200);
     }
 

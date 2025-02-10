@@ -20,9 +20,9 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $payments = $this->paymentService->getAllPayments()->sortByDesc('created_at');
+        $payments = $this->paymentService->getAllPayments();
         return response()->json([
-            'data' => $payments
+            'payments' => $payments
         ]);
     }
 
@@ -43,7 +43,7 @@ class PaymentController extends Controller
                     'price' => $menu->price,
                     'pivot' => [
                         'count' => $menu->pivot->count,
-                    ],
+                    ], 200
                 ];
             }),
         ]);

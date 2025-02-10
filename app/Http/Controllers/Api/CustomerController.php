@@ -17,9 +17,9 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = $this->customerService->getAllCustomers()->sortBy('name');
+        $customers = $this->customerService->getAllCustomers();
         return response()->json([
-            'data' => $customers
+            'customers' => $customers
         ],200);
     }
 

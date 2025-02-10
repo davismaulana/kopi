@@ -39,8 +39,8 @@
                                         @endcan
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-latte bg-latte">
-                                    @foreach ($transactions as $trans)
+                                <tbody class="divide-y divide-latte bg-latte transactionTableBody">
+                                    {{-- @foreach ($transactions as $trans)
                                         <tr class="">
                                             <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $trans->cashier->name }}</td>
@@ -72,7 +72,7 @@
                                                 </td>
                                             @endcan
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -81,4 +81,115 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://127.0.0.1:8000/api/transaction",
+                type: "GET",
+
+                success: function(data) {
+                    const transactions = data.transactions;
+                    let transactionsTableBody = document.querySelector('.transactionTableBody');
+                    let rows = '';
+
+                    transactions.forEach(trans => {
+                        const date = new Date(trans.created_at);
+
+                        // Format the date to "MM/DD/YYYY"
+                        const formattedDate =
+                            `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
+                        // Format the time to "HH:MM AM/PM"
+                        let hours = date.getHours();
+                        let minutes = date.getMinutes();
+                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12; // 12 hour format
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                        const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+                        rows += `
+                                <tr>
+                                    <td class="px-6 py-4 text-sm text-espresso">
+                                        ${ trans.cashier.name }</td>
+                                    <td class="px-6 py-4 text-sm text-espresso">
+                                        ${ trans.customer.name }</td>
+                                    <td class="px-6 py-4 text-sm text-espresso">
+                                        ${ trans.menu.name }</td>
+                                    <td class="px-6 py-4 text-sm text-espresso">
+                                        ${ trans.count }
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-espresso">
+                                        Rp. ${ trans.total_price.toLocaleString('id-ID') }
+                                    <td class="px-6 py-4 text-sm text-espresso">
+                                        ${ formattedDate } ${ formattedTime }</td>
+
+                                        @can('admin')
+                                            <td class="px-6 py-4 text-sm">
+                                                <div class="flex space-x-2">
+                                                    <button type="button" onclick="deleteTransaction(${trans.id})"
+                                                        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+
+                                                </td>
+                                            @endcan
+                                        </tr>
+
+                            `;
+                    });
+                    transactionsTableBody.innerHTML = rows;
+                }
+            })
+        })
+
+        function deleteTransaction(id) {
+            Swal.fire({
+                title: 'Are you sure you want to delete this transaction?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`http://127.0.0.1:8000/api/transaction/${id}`, {
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
+                            }
+                        })
+                        .then(response => {
+                            Swal.fire({
+                                title: 'Delete data Successfully',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        })
+                        .catch(error => {
+                            if (error.response) {
+                                const errors = error.response.data.errors;
+                                let errorMessage = '';
+                                for (const key in errors) {
+                                    errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+                                }
+                                alert(errorMessage);
+                            } else {
+                                alert('An error occurred. Please try again later');
+                            }
+                        })
+                } else {
+                    Swal.fire({
+                        title: 'Delete cancelled',
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+        }
+    </script>
 </x-app-layout>

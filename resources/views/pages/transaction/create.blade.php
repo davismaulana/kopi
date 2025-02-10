@@ -1,4 +1,91 @@
 <x-app-layout>
+    <h1 class="text-3xl font-bold mb-8 text-center text-espresso">Transaction</h1>
+
+    <div class="flex gap-8 p-6">
+        <!-- Menu Section -->
+        <div class="w-2/3">
+            <h2 class="text-xl font-semibold mb-4">Select Items</h2>
+            <div class="grid grid-cols-3 gap-4">
+                @foreach ($menus as $menu)
+                    <div class="bg-white shadow-md p-4 rounded-lg cursor-pointer" onclick="addToCart({{ json_encode($menu) }})">
+                        <h3 class="text-lg font-semibold">{{ $menu->name }}</h3>
+                        <p class="text-gray-500">Rp {{ number_format($menu->price, 2, ',', '.') }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div class="w-1/3 bg-white shadow-md p-6 rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Your Order</h2>
+            <ul id="cart" class="mb-4"></ul>
+            <p class="font-semibold">Total: Rp <span id="total-price">0</span></p>
+            <label class="block mt-4">Payment Method:
+                <select id="payment-method" class="border rounded w-full p-2 mt-1">
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Online Payment">Online Payment</option>
+                </select>
+            </label>
+            <button class="bg-espresso text-white w-full mt-4 py-2 rounded hover:bg-caramel" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        
+        function addToCart(menu) {
+            let quantity = prompt(`Enter quantity for ${menu.name}:`, 1);
+            if (!quantity || quantity <= 0) return;
+
+            let existing = cart.find(item => item.id === menu.id);
+            if (existing) {
+                existing.quantity += parseInt(quantity);
+            } else {
+                cart.push({ id: menu.id, name: menu.name, price: menu.price, quantity: parseInt(quantity) });
+            }
+            updateCart();
+        }
+        
+        function updateCart() {
+            let cartList = document.getElementById("cart");
+            let totalPrice = 0;
+            cartList.innerHTML = "";
+            
+            cart.forEach(item => {
+                totalPrice += item.price * item.quantity;
+                cartList.innerHTML += `<li class='flex justify-between'><span>${item.name} x${item.quantity}</span> <span>Rp ${item.price * item.quantity}</span></li>`;
+            });
+            document.getElementById("total-price").innerText = totalPrice.toLocaleString('id-ID');
+        }
+        
+        function checkout() {
+            if (cart.length === 0) return alert("Cart is empty!");
+            let paymentMethod = document.getElementById("payment-method").value;
+            fetch("/api/transaction", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    customer_name: "Guest",
+                    menus: cart,
+                    payment_method: paymentMethod,
+                    payment_status: "unpaid"
+                })
+            }).then(response => response.json())
+            .then(data => {
+                alert("Transaction successful!");
+                cart = [];
+                updateCart();
+            }).catch(error => console.error(error));
+        }
+    </script>
+</x-app-layout>
+
+
+{{-- <x-app-layout>
     <h1 class="text-3xl font-bold mb-8 text-center text-espresso">Create Transaction</h1>
 
     <div class="py-12">
@@ -211,4 +298,4 @@
             });
         });
     </script>
-</x-app-layout>
+</x-app-layout> --}}

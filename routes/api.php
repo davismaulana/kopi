@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CustomerController as ApiCustomerController;
 use App\Http\Controllers\Api\DashboardController as ApiDashboardController;
 use App\Http\Controllers\Api\MenuController as ApiMenuController;
+use App\Http\Controllers\Api\PaymentController as ApiPaymentController;
 use App\Http\Controllers\Api\TransactionController as ApiTransactionController;
 use App\Http\Controllers\Api\UserController as ApiUserController;
 use Illuminate\Http\Request;
@@ -34,3 +35,5 @@ Route::apiResource('customer', ApiCustomerController::class);
 
 Route::apiResource('menu', ApiMenuController::class);
 Route::apiResource('transaction', ApiTransactionController::class);
+
+Route::apiResource('payment', ApiPaymentController::class);

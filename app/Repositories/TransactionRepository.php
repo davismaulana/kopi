@@ -23,7 +23,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function all()
     {
-        return Transaction::all();
+        return Transaction::with(['menu','cashier','customer','payments'])->get();
     }
 
     public function find($id)

@@ -18,11 +18,13 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $countUser = $this->userService->countUser();
         $countAdmin = $this->userService->countAdmin();
         $countCashier = $this->userService->countCashier();
+
+        // $search = $request->query('search',null);
         $users = $this->userService->getAllUsers();
         return response()->json(data: [
             'countUser' => $countUser,
@@ -52,7 +54,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'level' => 'required|in:cashier,admin',
         ]);
-
+        
         $removeSpaces = str_replace(' ', '', $data['name']);
         $data['password'] = bcrypt($removeSpaces . '123');
 

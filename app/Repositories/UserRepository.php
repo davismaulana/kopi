@@ -12,7 +12,19 @@ class UserRepository implements UserRepositoryInterface
      {
     //     $userId = Auth::user()->id;
     //     return User::where('id', '!=', $userId)->get();
-        return User::all();
+        return User::latest()->get();
+
+        // $query = User::query();
+
+        // if (!empty($search)) {
+        //     $query->where(function ($q) use ($search) {
+        //         $q->where('name', 'LIKE', '%' . $search . '%')
+        //             ->orWhere('email', 'LIKE', '%' . $search . '%');
+        //     });
+        // }
+
+        // return $query->get();
+
     }
 
     public function find($id)

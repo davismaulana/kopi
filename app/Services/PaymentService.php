@@ -47,4 +47,9 @@ class PaymentService
     {
         return $this->paymentRepository->count();
     }
+
+    public function countGraph()
+    {
+        return $this->paymentRepository->countGraph();
+    }
 }

@@ -74,4 +74,10 @@ class DashboardService
         $dates = $this->dashboardRepository->loanDates();
         return $dates;
     }
+
+    public function countGraph()
+    {
+        $data = $this->paymentService->countGraph();
+        return $data;
+    }
 }

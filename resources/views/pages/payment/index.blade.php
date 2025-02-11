@@ -92,7 +92,7 @@
                                     <div id="menuDetails" class="space-y-4">
                                         <!-- Receipt content will be dynamically inserted here -->
                                     </div>
-                                    <button onclick="closeModal()"
+                                    <button onclick="closeModalView()"
                                         class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 w-full">
                                         Close
                                     </button>
@@ -166,7 +166,7 @@
                                             menuDetails.innerHTML = receiptContent;
 
 
-                                            document.getElementById('viewModalView').classList.remove('hidden');
+                                            document.getElementById('viewModal').classList.remove('hidden');
                                         });
                                 }
 

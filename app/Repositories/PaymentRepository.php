@@ -12,10 +12,7 @@ class PaymentRepository implements PaymentRepositoryInterface
         return Payment::with(['transactions.menu'])->get();
     }
 
-    public function searchAndSort($search, $sortBy, $sortOrder)
-    {
-        
-    }
+    public function searchAndSort($search, $sortBy, $sortOrder) {}
 
     public function find($id)
     {
@@ -37,7 +34,7 @@ class PaymentRepository implements PaymentRepositoryInterface
         $payment = Payment::findOrFail($id);
         $payment->update([
             'payment_method' => $data['payment_method'],
-            'status' => $data['payment_status'], 
+            'status' => $data['payment_status'],
         ]);
         return $payment;
     }
@@ -52,5 +49,14 @@ class PaymentRepository implements PaymentRepositoryInterface
     {
         $payment = Payment::count();
         return $payment;
+    }
+
+    public function countGraph()
+    {
+        $payments = Payment::selectRaw('COUNT(*) as count')
+            ->groupByRaw('DATE(created_at)')
+            ->pluck('count');
+
+        return $payments;
     }
 }

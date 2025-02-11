@@ -41,7 +41,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-latte bg-latte transactionTableBody">
                                     {{-- @foreach ($transactions as $trans)
-                                        <tr class="">
+                                        <tr class=""
                                             <td class="px-6 py-4 text-sm text-espresso">
                                                 {{ $trans->cashier->name }}</td>
                                             <td class="px-6 py-4 text-sm text-espresso">

@@ -34,6 +34,5 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::apiResource('customer', ApiCustomerController::class);
 
 Route::apiResource('menu', ApiMenuController::class);
-Route::apiResource('transaction', ApiTransactionController::class);
 
 Route::apiResource('payment', ApiPaymentController::class);

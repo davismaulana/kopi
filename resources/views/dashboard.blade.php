@@ -68,32 +68,22 @@
                 </div>
             </div>
 
-            <!-- Graphs Section -->
-            <!-- Line Chart: Sales Over Time -->
-            <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Sales Over Time</h3>
-                <canvas id="salesChart"></canvas>
-            </div>
+            <section class="mt-5">
 
-            <!-- Bar Chart: Top Selling Menus -->
-            <div class="bg-latte overflow-hidden shadow-md sm:rounded-lg p-6 mt-4">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Top Selling Menus</h3>
-                <canvas id="topMenusChart"></canvas>
-            </div>
+                <div class="col-span-2 bg-latte rounded-lg border shadow-lg p-4 md:p-6">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-base font-bold text-espresso">Transaction Overtime</p>
+                        </div>
+                    </div>
+                    <canvas id="area-chart" height="150"></canvas>
+                </div>
+
+            </section>
         </div>
     </div>
 
     <script>
-        // document.addEventListener('DOMContentLoaded', async () => {            
-        //     const token = localStorage.getItem('auth_token');
-        //         const response = await fetch('http://127.0.0.1:8000/api/dashboard', {
-        //             headers: {
-        //                 'Authorization': Bearer + token,
-        //                 'Accept': 'application/json'
-        //             }
-        //         });
-        //         const data = await response.json();
-        //     });
         $(document).ready(function() {
             var token = localStorage.getItem('auth_token');
 
@@ -103,16 +93,42 @@
                 url: "http://127.0.0.1:8000/api/dashboard",
                 type: "GET",
                 headers: {
-                    'Authorization': 'Bearer ' + token,
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content'),
                     'Accept': 'application/json'
                 },
-                success: function(data){
+                success: function(data) {
                     $("#totalCustomers").text(data.totalCustomers);
                     $("#totalMenus").text(data.totalMenus);
                     $("#totalPayments").text(data.totalPayments);
                     $("#totalUsers").text(data.totalUsers);
 
-                    // const salesCtx = document.getElementById('salesChart').getContext('2d')
+                    const areaChartCtx = document.getElementById('area-chart').getContext('2d');
+
+                    const areaChart = new Chart(areaChartCtx, {
+                        type: 'line',
+                        data: {
+                            labels: data.salesLabels,
+                            datasets: [{
+                                label: 'Loans',
+                                data: data.paymentCounts,
+                                borderColor: "#4F46E5",
+                                backgroundColor: "rgba(79, 70, 229, 0.2)",
+                                borderWidth: 2,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+
+                                }
+                            }
+                        }
+                    });
                 }
             })
         })

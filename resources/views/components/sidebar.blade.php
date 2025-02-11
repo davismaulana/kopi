@@ -52,7 +52,7 @@
                 </li>
             @endcan
             <li
-                class="px-3 py-3 mr-5 hover:bg-caramel hover:text-espresso rounded-xl mb-1 {{ request()->routeIs('transaction.index') ? 'bg-espresso text-latte' : '' }}">
+                class="px-3 py-3 mr-5 hover:bg-caramel hover:text-espresso rounded-xl mb-1 {{ request()->routeIs('transaction.index') || request()->routeIs('transaction.create') ? 'bg-espresso text-latte' : '' }}">
                 <a href="{{ route('transaction.index') }}" class="block">
                     <div class="grid grid-cols-5">
                         <h1 class="text-md">
@@ -95,7 +95,7 @@
                 </a>
             </li>
 
-            <li
+            {{-- <li
                 class="px-3 py-3 mr-5 hover:bg-caramel hover:text-espresso rounded-xl mb-1 {{ request()->routeIs('profile.edit') ? 'bg-espresso text-latte' : '' }}">
                 <a href="{{ route('profile.edit') }}" class="block">
                     <div class="grid grid-cols-5">
@@ -107,7 +107,7 @@
                         </h1>
                     </div>
                 </a>
-            </li>
+            </li> --}}
 
         </ul>
     </nav>

@@ -24,7 +24,7 @@
 
 
         <div class="flex justify-end">
-            <button type="button" onclick="closeModel()"
+            <button type="button" onclick="closeModal()"
                 class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 me-4">
                 Cancel
             </button>

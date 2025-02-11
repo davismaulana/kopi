@@ -10,7 +10,7 @@ use App\Services\PTService;
 use App\Services\TransactionService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -36,16 +36,18 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = $this->transactionService->getAllTransactions();
+      
         return response()->json([
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            
         ],200);
     }
 
-    public function create()
-    {
-        $menus = $this->menuService->getAllMenus()->sortBy('name');
-        return view('pages.transaction.create', compact('menus'));
-    }
+    // public function create()
+    // {
+    //     $menus = $this->menuService->getAllMenus()->sortBy('name');
+    //     return view('pages.transaction.create', compact('menus'));
+    // }
 
     public function store(Request $request)
     {
@@ -56,16 +58,23 @@ class TransactionController extends Controller
             'menus.*.quantity' => 'required|integer|min:1',
             'payment_method' => 'required|string|in:Cash,Credit Card,Online Payment',
             'payment_status' => 'required|string|in:unpaid,paid',
+            'user_id' => 'required|integer|exists:users,id'
         ]);
 
-        $data['user_id'] = Auth::user()->id;
+        try {
+            $transaction = $this->transactionService->createTransaction($data, $data['user_id']);
 
-        $transaction = $this->transactionService->createTransaction($data, $data['user_id']);
+            return response()->json([
+                'message' => 'Create transaction successfull',
+                'data' =>  $transaction
+            ],201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Transaction failed',
+                'error' => $e->getMessage()
+            ],500);
+        }
 
-        return response()->json([
-            'message' => 'Create transaction successfull',
-            'data' => $transaction
-        ],201);
     }
 
     public function edit($id)

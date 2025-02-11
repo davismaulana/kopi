@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use App\Services\DashboardService;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,9 @@ class DashboardController extends Controller
         $totalUsers = $this->dashboardService->totalUser();
        
         $topMenus = $this->dashboardService->topMenus();
-        $loanDates = $this->dashboardService->loanDates();
+        $paymentDates = $this->dashboardService->loanDates();
+
+        $paymentCounts = $this->dashboardService->countGraph();
         
 
         return response()->json([
@@ -34,8 +37,9 @@ class DashboardController extends Controller
             'totalTransactions' => $totalTransactions,
             'totalPayments' => $totalPayments,
             'totalUsers' => $totalUsers,
-            'salesLabels' => $loanDates,
+            'salesLabels' => $paymentDates,
             'topMenus' => $topMenus,
+            'paymentCounts' => $paymentCounts
         ],200);
     }
 }

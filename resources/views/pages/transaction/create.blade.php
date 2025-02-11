@@ -7,10 +7,25 @@
             <h2 class="text-xl font-semibold mb-4">Select Items</h2>
             <div class="grid grid-cols-3 gap-4">
                 @foreach ($menus as $menu)
-                    <div class="bg-white shadow-md p-4 rounded-lg cursor-pointer" onclick="addToCart({{ json_encode($menu) }})">
-                        <h3 class="text-lg font-semibold">{{ $menu->name }}</h3>
-                        <p class="text-gray-500">Rp {{ number_format($menu->price, 2, ',', '.') }}</p>
-                    </div>
+                    @if ($menu->stock == 0)
+                        <div class="bg-white shadow-md p-4 rounded-lg relative">
+                            <span
+                                class="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                                Empty Stock
+                            </span>
+
+                            <h3 class="text-lg font-semibold">
+                                {{ $menu->name }}
+                            </h3>
+                            <p class="text-gray-500">Rp {{ number_format($menu->price, 2, ',', '.') }}</p>
+                        </div>
+                    @else
+                        <div class="bg-white shadow-md p-4 rounded-lg cursor-pointer"
+                            onclick="addToCart({{ json_encode($menu) }})">
+                            <h3 class="text-lg font-semibold">{{ $menu->name }}</h3>
+                            <p class="text-gray-500">Rp {{ number_format($menu->price, 2, ',', '.') }}</p>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -20,6 +35,16 @@
             <h2 class="text-xl font-semibold mb-4">Your Order</h2>
             <ul id="cart" class="mb-4"></ul>
             <p class="font-semibold">Total: Rp <span id="total-price">0</span></p>
+
+            <!-- Customer Name -->
+            <label class="block mt-4"> Customer Name:
+                <input type="text" id="customer_name" class="border rounded w-full p-2 mt-1" required
+                    value="{{ old('customer_name') }}" />
+                @error('customer_name')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </label>
+
             <label class="block mt-4">Payment Method:
                 <select id="payment-method" class="border rounded w-full p-2 mt-1">
                     <option value="Cash">Cash</option>
@@ -27,13 +52,16 @@
                     <option value="Online Payment">Online Payment</option>
                 </select>
             </label>
-            <button class="bg-espresso text-white w-full mt-4 py-2 rounded hover:bg-caramel" onclick="checkout()">Checkout</button>
+            <button class="bg-espresso text-white w-full mt-4 py-2 rounded hover:bg-caramel"
+                onclick="checkout()">Checkout</button>
         </div>
     </div>
 
     <script>
         let cart = [];
-        
+
+        let userId = {{ Auth::user()->id }};
+
         function addToCart(menu) {
             let quantity = prompt(`Enter quantity for ${menu.name}:`, 1);
             if (!quantity || quantity <= 0) return;
@@ -42,44 +70,67 @@
             if (existing) {
                 existing.quantity += parseInt(quantity);
             } else {
-                cart.push({ id: menu.id, name: menu.name, price: menu.price, quantity: parseInt(quantity) });
+                cart.push({
+                    id: menu.id,
+                    name: menu.name,
+                    price: menu.price,
+                    quantity: parseInt(quantity)
+                });
             }
             updateCart();
         }
-        
+
         function updateCart() {
             let cartList = document.getElementById("cart");
             let totalPrice = 0;
             cartList.innerHTML = "";
-            
+
             cart.forEach(item => {
                 totalPrice += item.price * item.quantity;
-                cartList.innerHTML += `<li class='flex justify-between'><span>${item.name} x${item.quantity}</span> <span>Rp ${item.price * item.quantity}</span></li>`;
+                cartList.innerHTML +=
+                    `<li class='flex justify-between'><span>${item.name} x${item.quantity}</span> <span>Rp ${item.price * item.quantity}</span></li>`;
             });
             document.getElementById("total-price").innerText = totalPrice.toLocaleString('id-ID');
         }
-        
+
         function checkout() {
             if (cart.length === 0) return alert("Cart is empty!");
             let paymentMethod = document.getElementById("payment-method").value;
+            let customerName = document.getElementById("customer_name").value;
             fetch("/api/transaction", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    customer_name: "Guest",
-                    menus: cart,
-                    payment_method: paymentMethod,
-                    payment_status: "unpaid"
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        customer_name: customerName,
+                        menus: cart,
+                        payment_method: paymentMethod,
+                        payment_status: "unpaid",
+                        user_id: userId
+                    })
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
                 })
-            }).then(response => response.json())
-            .then(data => {
-                alert("Transaction successful!");
-                cart = [];
-                updateCart();
-            }).catch(error => console.error(error));
+                .then(data => {
+                    cart = [];
+                    updateCart();
+
+                    Swal.fire({
+                        title: 'Create data Successfully',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        window.location.href = '/transaction'; // Redirect after confirmation
+                    });
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert("Transaction failed. Please try again.");
+                });
         }
     </script>
 </x-app-layout>
